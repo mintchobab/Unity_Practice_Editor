@@ -24,36 +24,18 @@ public class DeleteMissingScripts : MonoBehaviour
 
         if (list.Count > 0)
             DeleteInternal(list);
-
-        //int deleteCount = 0;
-        //string[] allPrefabs = AssetDatabase.FindAssets("t:Prefab");
-
-        //foreach (string prefabGUID in allPrefabs)
-        //{
-        //    string path = AssetDatabase.GUIDToAssetPath(prefabGUID);
-        //    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-
-        //    if (prefab != null)
-        //    {
-        //        RecursiveDeleteMissingScript(prefab, ref deleteCount);
-        //    }
-        //}
-
-        //if (deleteCount > 0)
-        //{
-        //    Debug.LogWarning($"{nameof(DeleteMissingScripts)} : Delete Missing Script Count {deleteCount} ");
-        //    AssetDatabase.SaveAssets();
-        //}
     }
 
 
     [MenuItem("Assets/Selection Delete Missing Scripts")]
     public static void DeleteMissingScriptInSelections()
     {
-        List<GameObject> objs = Selection.gameObjects.ToList();
+        List<GameObject> list = Selection.gameObjects.ToList();
 
-        DeleteInternal(objs);
+        if (list.Count > 0)
+            DeleteInternal(list);
     }
+
 
     private static void DeleteInternal(List<GameObject> list)
     {
