@@ -29,18 +29,6 @@ public class BehaviourTree : ScriptableObject
             RootNode.Evaluate();
     }
 
-    public void SetRoot(BehaviourNode node)
-    {
-        RootNode = node;
-    }
-
-    public void AddNode(BehaviourNode node)
-    {
-        if (!NodeList.Contains(node))
-            NodeList.Add(node);
-        else
-            Debug.LogError($"{nameof(BehaviourTree)} : Node is Exist");
-    }
 
     public BehaviourNode FindNode(string guid)
     {
@@ -51,6 +39,45 @@ public class BehaviourTree : ScriptableObject
 
         return node;
     }
+
+
+    // view도 생성하기
+    public BehaviourNode CreateBehaviourNode(string guid, Vector2 position, bool isRoot = false)
+    {
+        BehaviourNode node = ScriptableObject.CreateInstance<BehaviourNode>();
+
+        node.name = "New Node";
+        node.guid = guid;
+        node.position = position;
+
+        if (!NodeList.Contains(node))
+            NodeList.Add(node);
+        else
+            Debug.LogError($"{nameof(BehaviourTree)} : Node is Exist");
+
+        if (isRoot)
+        {
+            RootNode = node;
+        }
+
+
+        AssetDatabase.AddObjectToAsset(node, this);
+        AssetDatabase.SaveAssets();
+
+        return node;
+    }
+
+
+    public void DestroyBehaviourNode(BehaviourNode node)
+    {
+        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+
+        Debug.LogWarning("Path : " + path);
+
+        //AssetDatabase.DeleteAsset(path);
+        //AssetDatabase.SaveAssets();
+    }
+
 }
 
 
@@ -71,7 +98,7 @@ public class BehaviourTreeEditor : Editor
 
         string guid = GUID.Generate().ToString();
 
-        BehaviourNode.CreateBehaviourNode(newTree, guid, new Vector2(100f, 100f));
+        newTree.CreateBehaviourNode(guid, new Vector2(100f, 100f), true);
         AssetDatabase.SaveAssets();
 
         Selection.activeObject = newTree;

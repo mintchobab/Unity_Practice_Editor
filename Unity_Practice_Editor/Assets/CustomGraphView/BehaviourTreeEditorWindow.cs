@@ -1,11 +1,31 @@
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BehaviourTreeEditorWindow : GraphViewEditorWindow
 {
     private BehaviourTreeView graphView;
+    private TwoPaneSplitView splitView;
+    private VisualElement leftPanel;
+    private VisualElement rightPanel;
+
+    private void OnEnable()
+    {
+        rootVisualElement.Clear();
+
+        SetupLayout();
+
+        Selection.selectionChanged += OnSelectionChanged;
+        OnSelectionChanged();
+    }
+
+    private void OnDisable()
+    {
+        Selection.selectionChanged -= OnSelectionChanged;
+    }
+
 
     [MenuItem("Custom/Behaviour Tree/Tree Editor")]
     public static void OpenWindow()
@@ -15,17 +35,38 @@ public class BehaviourTreeEditorWindow : GraphViewEditorWindow
         window.Show();
     }
 
-    private void OnEnable()
-    {
-        Selection.selectionChanged += OnSelectionChanged;
 
-        OnSelectionChanged();
+    private void SetupLayout()
+    {
+        // Split View
+        splitView = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+        rootVisualElement.Add(splitView);
+
+        // 좌측 패널
+        leftPanel = new VisualElement();
+        splitView.Add(leftPanel);
+
+        // 우측 패널
+        rightPanel = new VisualElement();
+        rightPanel.style.flexDirection = FlexDirection.Column; // 수직 레이아웃 설정
+        splitView.Add(rightPanel);
+
+        // 툴바
+        Toolbar toolbar = new Toolbar();
+        toolbar.style.justifyContent = Justify.FlexEnd;
+
+        ToolbarButton saveButton = new ToolbarButton(() =>
+        {
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        });
+
+        saveButton.text = "Save";
+        toolbar.Add(saveButton);
+
+        rightPanel.Add(toolbar);
     }
 
-    private void OnDisable()
-    {
-        Selection.selectionChanged -= OnSelectionChanged;
-    }
 
     private void OnSelectionChanged()
     {
@@ -33,12 +74,18 @@ public class BehaviourTreeEditorWindow : GraphViewEditorWindow
         {
             if (graphView != null)
             {
-                rootVisualElement.Remove(graphView);
+                rightPanel.Remove(graphView);
             }
 
             graphView = new BehaviourTreeView(Selection.activeObject as BehaviourTree);
-            graphView.StretchToParentSize();
-            rootVisualElement.Add(graphView);
+
+            // 안드로이드 스튜디오의 weight 같은 효과
+            graphView.style.flexGrow = 1;
+
+            // 부모의 전체 크기에 맞추기 때문에 나머지 것들도 가려버림 (ex. 툴바)
+            //graphView.StretchToParentSize();
+
+            rightPanel.Add(graphView);
         }
     }
 }

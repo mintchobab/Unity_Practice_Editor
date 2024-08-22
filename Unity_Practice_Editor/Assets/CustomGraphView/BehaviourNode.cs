@@ -20,10 +20,24 @@ public class BehaviourNode : ScriptableObject
         parentNode = null;
     }
 
-
     public void SetParentNode(BehaviourNode node)
     {
         this.parentNode = node;
+
+        Debug.LogWarning("ºÎ¸ð ¼³Á¤ µÊ");
+        Debug.LogWarning($"{guid} -> {parentNode.guid}");
+    }
+
+    public void AddChildNode(BehaviourNode node)
+    {
+        // TODO : ????
+        if (childrenNode == null)
+            childrenNode = new List<BehaviourNode>();
+
+        if (!childrenNode.Contains(node))
+        {
+            childrenNode.Add(node);
+        }
     }
 
 
@@ -33,20 +47,10 @@ public class BehaviourNode : ScriptableObject
     }
 
 
-    public static BehaviourNode CreateBehaviourNode(BehaviourTree tree, string guid, Vector2 position)
+    public void SetPosition(Vector2 position)
     {
-        BehaviourNode node = ScriptableObject.CreateInstance<BehaviourNode>();
+        this.position = position;
 
-        node.name = "New Node";
-        node.guid = guid;
-        node.position = position;
-
-        tree.AddNode(node);
-        tree.SetRoot(node);
-
-        AssetDatabase.AddObjectToAsset(node, tree);
-        AssetDatabase.SaveAssets();
-
-        return node;
+        EditorUtility.SetDirty(this);
     }
 }

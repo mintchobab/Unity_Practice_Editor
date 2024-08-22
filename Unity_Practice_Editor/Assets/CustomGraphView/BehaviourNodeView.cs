@@ -11,8 +11,13 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
 
     public string guid;
 
-    public BehaviourNodeView(string guid)
+    public BehaviourNode MyNode { get; private set; }
+
+
+    public BehaviourNodeView(BehaviourNode node)
     {
+        MyNode = node;
+
         //Node node = new Node { title = "New Node" };
 
         //node.SetPosition(new Rect(position, Vector2.zero));
@@ -27,5 +32,17 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         outputContainer.Add(outputPort);
 
         //AddElement(node);
+    }
+
+
+    public void ChangeEdge(BehaviourNodeView parentNode, BehaviourNodeView childNode)
+    {
+        if (parentNode == null || childNode == null)
+        {
+            Debug.LogWarning("노드 없음>>..???");
+        }
+
+        MyNode.SetParentNode(parentNode.MyNode);
+        MyNode.AddChildNode(childNode.MyNode);
     }
 }
