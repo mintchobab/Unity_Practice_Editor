@@ -1,22 +1,28 @@
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
 {
-    public BehaviourNodeView parentNode;
-    public BehaviourNodeView childNode;
+    //public BehaviourNodeView parentNode;
+    //public BehaviourNodeView childNode;
 
     public Port inputPort;
     public Port outputPort;
 
     public string guid;
 
-    public BehaviourNode MyNode { get; private set; }
+    public BehaviourNode Node { get; private set; }
 
 
-    public BehaviourNodeView(BehaviourNode node)
+    public BehaviourNode behaviourNode;
+
+
+    public BehaviourNodeView(BehaviourNode inNode)
     {
-        MyNode = node;
+        Node = inNode;
 
         //Node node = new Node { title = "New Node" };
 
@@ -31,18 +37,31 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         outputPort = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(Node));
         outputContainer.Add(outputPort);
 
+
+
+
+
+        //ObjectField objectField = new ObjectField
+        //{
+        //    label = "Behaviour Tree",
+        //    objectType = typeof(BehaviourNode),
+        //    allowSceneObjects = false // 씬 객체는 허용하지 않음
+        //};
+
+        //objectField.RegisterValueChangedCallback(evt =>
+        //{
+        //    behaviourNode = evt.newValue as BehaviourTree;
+        //});
+
+        //mainContainer.Add(objectField);
+
+
+
+
+
+
         //AddElement(node);
     }
 
 
-    public void ChangeEdge(BehaviourNodeView parentNode, BehaviourNodeView childNode)
-    {
-        if (parentNode == null || childNode == null)
-        {
-            Debug.LogWarning("노드 없음>>..???");
-        }
-
-        MyNode.SetParentNode(parentNode.MyNode);
-        MyNode.AddChildNode(childNode.MyNode);
-    }
 }
