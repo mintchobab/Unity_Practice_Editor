@@ -82,7 +82,7 @@ public class BehaviourTreeEditorWindow : GraphViewEditorWindow
     {
         if (Selection.activeObject is BehaviourTree)
         {
-            if (graphView != null)
+            if (graphView != null && rightPanel != null)
             {
                 rightPanel.Remove(graphView);
             }

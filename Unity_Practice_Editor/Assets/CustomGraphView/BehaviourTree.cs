@@ -2,91 +2,79 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using UnityEditor.Experimental.GraphView;
+
 
 [CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "ScriptableObjects/Behaviour Tree", order = 1)]
-public class BehaviourTree : ScriptableObject
+public class BehaviourTree : ScriptableObject, ISerializationCallbackReceiver
 {
-    //[HideInInspector]
-    public BehaviourNode RootNode;
-
-    //[HideInInspector]
     public List<BehaviourNode> NodeList = new List<BehaviourNode>();
+    public List<BehaviourNodeData> NodeDataList = new List<BehaviourNodeData>();
+    
+    public string RootNodeGuid;
+
+    private BehaviourNode rootNode;
+    public BehaviourTreeContext Context { get; private set; }
+
+
+    public void OnBeforeSerialize()
+    {
+        NodeDataList.Clear();
+
+        for (int i = 0; i < NodeList.Count; i++)
+        {
+            BehaviourNodeData nodeData = new BehaviourNodeData();
+            nodeData.TypeName = NodeList[i].GetType().Name;
+            nodeData.Guid = NodeList[i].Guid;
+            nodeData.ParentNodeGuid = NodeList[i].ParentNodeGuid;
+            nodeData.ChildNodeGuidList = NodeList[i].ChildNodeGuidList;
+            nodeData.PosX = NodeList[i].PosX;
+            nodeData.PosY = NodeList[i].PosY;
+
+            NodeDataList.Add(nodeData);
+        }
+    }
+
+    // 직렬화 후
+    public void OnAfterDeserialize()
+    {
+        NodeList.Clear();
+
+        for (int i = 0; i < NodeDataList.Count; i++)
+        {
+            Type type = Type.GetType(NodeDataList[i].TypeName);
+
+            BehaviourNode node = Activator.CreateInstance(type, NodeDataList[i].Guid) as BehaviourNode;
+            node.PosX = NodeDataList[i].PosX;
+            node.PosY = NodeDataList[i].PosY;
+            node.ParentNodeGuid = NodeDataList[i].ParentNodeGuid;
+            node.ChildNodeGuidList = NodeDataList[i].ChildNodeGuidList;
+
+            NodeList.Add(node);
+        };
+    }
 
 
     private void OnEnable()
     {
-        if (RootNode == null)
+        if (RootNodeGuid == null)
         {
-            string guid = GUID.Generate().ToString();
-
-            RootNode = new BehaviourNode(guid);
-            NodeList.Add(RootNode);
+            BehaviourNode node = CreateNode(typeof(RootNode));
+            RootNodeGuid = node.Guid;
         }
     }
 
-    //public BehaviourNode CreateNode()
-    //{
-    //    string guid = GUID.Generate().ToString();
-    //    BehaviourNode newNode = new BehaviourNode(guid);
 
-    //    NodeList.Add(newNode);
-    //    EditorUtility.SetDirty(this);
-
-    //    return newNode;
-    //}
-
-
-
-
-
-
-    // TODO : 합치는 방향에 대해서 생각해보기
-    public ActionNode CreateActionNode()
+    public BehaviourNode CreateNode(Type nodeType)
     {
-        string guid = GUID.Generate().ToString();
-        ActionNode newNode = new ActionNode(guid);
+        string guid = System.Guid.NewGuid().ToString();
+
+        BehaviourNode newNode = Activator.CreateInstance(nodeType, guid) as BehaviourNode;
 
         NodeList.Add(newNode);
         EditorUtility.SetDirty(this);
 
         return newNode;
     }
-
-
-    // TODO : 합치는 방향에 대해서 생각해보기
-    public SelectorNode CreateSelectorNode()
-    {
-        string guid = GUID.Generate().ToString();
-        SelectorNode newNode = new SelectorNode(guid);
-
-        NodeList.Add(newNode);
-        EditorUtility.SetDirty(this);
-
-        return newNode;
-    }
-
-    // TODO : 합치는 방향에 대해서 생각해보기
-    public SequenceNode CreateSequenceNode()
-    {
-        string guid = GUID.Generate().ToString();
-        SequenceNode newNode = new SequenceNode(guid);
-
-        NodeList.Add(newNode);
-        EditorUtility.SetDirty(this);
-
-        return newNode;
-    }
-
-
-
-
-
-
-
-
-
-
 
 
     public void RemoveNode(BehaviourNode node)
@@ -94,7 +82,7 @@ public class BehaviourTree : ScriptableObject
         if (!NodeList.Contains(node))
             return;
 
-        if (node.Guid == RootNode.Guid)
+        if (node.Guid == RootNodeGuid)
             return;
 
         NodeList.Remove(node);
@@ -107,90 +95,17 @@ public class BehaviourTree : ScriptableObject
     {
         return NodeList.Find(x => x.Guid == guid);
     }
-}
-
-[System.Serializable]
-public class BehaviourNode
-{
-    //[HideInInspector]
-    public string Guid;
-
-    //[HideInInspector]
-    public string ParentNodeGuid;
-
-    //[HideInInspector]
-    public List<string> ChildNodeList = new List<string>();
-
-    [HideInInspector]
-    public float PosX;
-
-    [HideInInspector]
-    public float PosY;
 
 
-    // 이거 없어져야함
-    public BehaviourNode(string guid)
+    public void Evaluate(BehaviourTreeContext context)
     {
-        this.Guid = guid;
+        if (rootNode == null)
+            rootNode = FindNode(RootNodeGuid);
+
+        if (this.Context != context)
+            this.Context = context;
+
+        rootNode.Evaluate(this);
     }
-
-
-    public void SetPosition(Vector2 position)
-    {
-        PosX = position.x;
-        PosY = position.y;
-    }
-
-
-    public void RemoveParnetNode()
-    {
-        ParentNodeGuid = null;
-    }
-
-
-    public void SetParentNode(string guid)
-    {
-        ParentNodeGuid = guid;
-    }
-
-    public void AddChildNode(string guid)
-    {
-        if (ChildNodeList.Contains(guid))
-            return;
-
-        ChildNodeList.Add(guid);
-    }
-
-
-    public void RemoveChildNode(string guid)
-    {
-        if (!ChildNodeList.Contains(guid))
-            return;
-
-        ChildNodeList.Remove(guid);
-    }
-}
-
-
-
-
-public class ActionNode : BehaviourNode
-{
-    public ActionNode(string guid) : base(guid) { Debug.LogWarning("Action Node 생성"); }
-
-}
-
-public class SelectorNode : BehaviourNode
-{
-    public SelectorNode(string guid) : base(guid) { Debug.LogWarning("Selector Node 생성"); }
-
-
-}
-
-public class SequenceNode : BehaviourNode
-{
-    public SequenceNode(string guid) : base(guid) { Debug.LogWarning("Sequence Node 생성"); }
-
-
 }
 

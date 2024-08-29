@@ -1,67 +1,93 @@
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
 {
-    //public BehaviourNodeView parentNode;
-    //public BehaviourNodeView childNode;
-
     public Port inputPort;
     public Port outputPort;
+    public BehaviourNode behaviourNode;
 
     public string guid;
 
     public BehaviourNode Node { get; private set; }
 
 
-    public BehaviourNode behaviourNode;
-
-
     public BehaviourNodeView(BehaviourNode inNode)
     {
         Node = inNode;
 
-        //Node node = new Node { title = "New Node" };
+        style.width = 200;
+        StyleColor inputColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 
-        //node.SetPosition(new Rect(position, Vector2.zero));
+        // 체크박스 삭제
+        var collapseButton = titleContainer.Q("collapse-button");
+        if (collapseButton != null)
+        {
+            collapseButton.RemoveFromHierarchy();
+        }
 
-        // Input Port
-        // Capacity가 Single이면 한 개의 Node랑만 연결 가능, Multi는 여러개 가능
-        inputPort = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(Node));
+        if (Node is RootNode)
+        {
+            outputPort = AddOutputPort(Port.Capacity.Single);
+        }
+        else if (Node is CompositeNode)
+        {
+            inputColor = new Color(129f / 255f, 44f / 255f, 27f / 255f, 1f);
+
+            inputPort = AddInputPort(Port.Capacity.Single);
+            outputPort = AddOutputPort(Port.Capacity.Multi);
+        }
+        else if (Node is DecoratorNode)
+        {
+            inputColor = new Color(0f / 255f, 132f / 255f, 43f / 255f, 1f);
+
+            inputPort = AddInputPort(Port.Capacity.Single);
+            outputPort = AddOutputPort(Port.Capacity.Multi);
+        }
+        else if (Node is ActionNode)
+        {
+            inputColor = new Color(23f / 255f, 64f / 255f, 165f / 255f, 1f);
+
+            inputPort = AddInputPort(Port.Capacity.Single);
+        }
+        else
+        {
+            Debug.LogError($"{nameof(BehaviourNodeView)} : Node Error {typeof(Node)}");
+        }
+
+        title = Node.GetType().Name;
+
+        titleContainer.style.backgroundColor = inputColor;
+        titleContainer.style.justifyContent = Justify.Center;
+
+        var titleLabel = titleContainer.Q<Label>("title-label");
+        if (titleLabel != null)
+            titleLabel.style.color = Color.white;
+
         inputContainer.Add(inputPort);
-
-        // Output Port
-        outputPort = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(Node));
         outputContainer.Add(outputPort);
 
-
-
-
-
-        //ObjectField objectField = new ObjectField
-        //{
-        //    label = "Behaviour Tree",
-        //    objectType = typeof(BehaviourNode),
-        //    allowSceneObjects = false // 씬 객체는 허용하지 않음
-        //};
-
-        //objectField.RegisterValueChangedCallback(evt =>
-        //{
-        //    behaviourNode = evt.newValue as BehaviourTree;
-        //});
-
-        //mainContainer.Add(objectField);
-
-
-
-
-
-
-        //AddElement(node);
+        RefreshExpandedState();
+        RefreshPorts();
     }
 
 
+    private Port AddInputPort(Port.Capacity portCapacity)
+    {
+        Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, portCapacity, typeof(float));
+        inputPort.portName = "Input";
+
+        return inputPort;
+    }
+
+
+    private Port AddOutputPort(Port.Capacity portCapacity)
+    {
+        Port outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, portCapacity, typeof(float));
+        outputPort.portName = "Output";
+
+        return outputPort;
+    }
 }

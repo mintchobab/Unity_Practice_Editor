@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
@@ -20,6 +21,7 @@ public class BehaviourTreeView : GraphView
         this.AddManipulator(new RectangleSelector());
 
         // 배경 그리드 추가
+        styleSheets.Add(Resources.Load<StyleSheet>("Background"));
         GridBackground gridBackground = new GridBackground();
         Insert(0, gridBackground);
         gridBackground.StretchToParentSize();
@@ -61,7 +63,8 @@ public class BehaviourTreeView : GraphView
                 nodeView.SetPosition(rect);
 
                 BehaviourNode node = myBehaviourTree.FindNode(nodeView.guid);
-                node.SetPosition(newPosition);
+                node.PosX = newPosition.x;
+                node.PosY = newPosition.y;
             }
         }
         else if (graphViewChange.edgesToCreate != null)
@@ -79,17 +82,17 @@ public class BehaviourTreeView : GraphView
                 BehaviourNodeView inputNode = edge.input.node as BehaviourNodeView;
                 BehaviourNodeView outputNode = edge.output.node as BehaviourNodeView;
 
-                inputNode.Node.SetParentNode(outputNode.guid);
+                inputNode.Node.ParentNodeGuid = outputNode.guid;
                 outputNode.Node.AddChildNode(inputNode.guid);
             }
         }
         // 엣지가 지워지는것도 같이 감지됨
         else if (graphViewChange.elementsToRemove != null)
         {
-            if (graphViewChange.elementsToRemove.Count > 1)
-            {
-                Debug.LogWarning("2개 이상인 상황33");
-            }
+            //if (graphViewChange.elementsToRemove.Count > 1)
+            //{
+            //    Debug.LogWarning("2개 이상인 상황33");
+            //}
 
             foreach (GraphElement element in graphViewChange.elementsToRemove)
             {
@@ -100,7 +103,7 @@ public class BehaviourTreeView : GraphView
                     BehaviourNodeView inputNode = edge.input.node as BehaviourNodeView;
                     BehaviourNodeView outputNode = edge.output.node as BehaviourNodeView;
 
-                    inputNode.Node.RemoveParnetNode();
+                    inputNode.Node.ParentNodeGuid = null;
                     outputNode.Node.RemoveChildNode(inputNode.guid);
                 }
                 else if (element is BehaviourNodeView)
@@ -122,60 +125,52 @@ public class BehaviourTreeView : GraphView
         base.BuildContextualMenu(evt);
 
         // 마우스 우 클릭 이벤트
-        // TODO : 스크립터블 오브젝트 + Node 같이 생성하는 함수로 바꾸기
-        evt.menu.InsertAction(0, $"Create Node/Selector Node", (action) => CreateSelectorNode(myBehaviourTree, action.eventInfo.mousePosition));
-        evt.menu.InsertAction(1, $"Create Node/Sequence Node", (action) => CreateSequenceNode(myBehaviourTree, action.eventInfo.mousePosition));
-        evt.menu.InsertAction(2, $"Create Node/Action Node", (action) => CreateActionNode(myBehaviourTree, action.eventInfo.mousePosition));
+        BuildContextualMenuInternal(typeof(CompositeNode), 0, "Create Node/Composite Node/", "Assets/CustomGraphView/CompositeNode");
+        BuildContextualMenuInternal(typeof(DecoratorNode), 1, "Create Node/Decorator Node/", "Assets/CustomGraphView/DecoratorNode");
+        BuildContextualMenuInternal(typeof(ActionNode), 2, "Create Node/Action Node/", "Assets/CustomGraphView/ActionNode");
+
+        void BuildContextualMenuInternal(Type parentNodeType, int actionIndex, string actionName, string folderPath)
+        {
+            string[] guids = AssetDatabase.FindAssets("t:MonoScript", new[] { folderPath });
+
+            foreach (string guid in guids)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath);
+
+                if (script == null)
+                    continue;
+
+                System.Type scriptType = script.GetClass();
+
+                if (scriptType != null && scriptType.IsSubclassOf(parentNodeType))
+                {
+                    evt.menu.InsertAction(actionIndex, $"{actionName}{scriptType.Name}", (action) => OnCreatedNode(scriptType, myBehaviourTree, action.eventInfo.mousePosition));
+                }
+            }
+        }
     }
 
 
-
-
-
-    // TODO : 합치는거 생각해보기
-    private void CreateSelectorNode(BehaviourTree tree, Vector2 position)
+    private void OnCreatedNode(Type nodeType, BehaviourTree tree, Vector2 position)
     {
-        SelectorNode node = tree.CreateSelectorNode();
-        node.SetPosition(position);
+        BehaviourNode node = tree.CreateNode(nodeType);
+        node.PosX = position.x;
+        node.PosY = position.y;
 
         CreateNodeView(node);
     }
-
-
-    private void CreateSequenceNode(BehaviourTree tree, Vector2 position)
-    {
-        SequenceNode node = tree.CreateSequenceNode();
-        node.SetPosition(position);
-
-        CreateNodeView(node);
-    }
-
-
-
-    private void CreateActionNode(BehaviourTree tree, Vector2 position)
-    {
-        ActionNode node = tree.CreateActionNode();
-        node.SetPosition(position);
-
-        CreateNodeView(node);
-    }
-
-
-
-
-
 
 
     private void CreateNodeView(BehaviourNode node)
     {
         BehaviourNodeView nodeView = new BehaviourNodeView(node);
-        nodeView.title = node.Guid;
         nodeView.guid = node.Guid;
 
         nodeView.SetPosition(new Rect(new Vector2(node.PosX, node.PosY), Vector2.zero));
         nodeView.RegisterCallback<MouseDownEvent>(evt => OnSelectedNode(evt, nodeView));
 
-        if (myBehaviourTree.RootNode.Guid == node.Guid)
+        if (node is RootNode)
             nodeView.capabilities &= ~Capabilities.Deletable;
 
         nodeViewList.Add(nodeView);
@@ -184,17 +179,12 @@ public class BehaviourTreeView : GraphView
     }
 
 
-
-
-
-
-
     private void CreateEdge(BehaviourNode node)
     {
-        if (node.ChildNodeList.Count == 0)
+        if (node.ChildNodeGuidList.Count == 0)
             return;
 
-        foreach (string childGuid in node.ChildNodeList)
+        foreach (string childGuid in node.ChildNodeGuidList)
         {
             //input, output port를 알아야함....
 
