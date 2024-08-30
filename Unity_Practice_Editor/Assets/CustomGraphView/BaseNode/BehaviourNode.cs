@@ -1,23 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-// 직렬화를 위한 데이터 관리 클래스
-[Serializable]
-public class BehaviourNodeData
-{
-    public string TypeName;
-
-    public string Guid;
-    public string ParentNodeGuid;
-    public List<string> ChildNodeGuidList;
-    public float PosX;
-    public float PosY;
-
-    // Action Node
-    public float MoveSpeed;
-}
 
 public enum NodeState
 {
