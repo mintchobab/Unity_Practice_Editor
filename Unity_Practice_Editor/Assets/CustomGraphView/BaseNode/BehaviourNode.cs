@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
 
 // 직렬화를 위한 데이터 관리 클래스
@@ -14,6 +14,9 @@ public class BehaviourNodeData
     public List<string> ChildNodeGuidList;
     public float PosX;
     public float PosY;
+
+    // Action Node
+    public float MoveSpeed;
 }
 
 public enum NodeState
@@ -27,6 +30,7 @@ public enum NodeState
 [System.Serializable]
 public class BehaviourNode
 {
+    [SerializeReference]
     protected string guid;
     public string Guid
     {
@@ -35,6 +39,7 @@ public class BehaviourNode
     }
 
 
+    [SerializeReference]
     protected string parentNodeGuid;
     public string ParentNodeGuid
     {
@@ -43,6 +48,7 @@ public class BehaviourNode
     }
 
 
+    [SerializeReference]
     protected List<string> childNodeGuidList = new List<string>();
     public List<string> ChildNodeGuidList
     {
@@ -51,6 +57,7 @@ public class BehaviourNode
     }
 
 
+    [SerializeReference]
     protected float posX;
     public float PosX
     {
@@ -59,6 +66,7 @@ public class BehaviourNode
     }
 
 
+    [SerializeReference]
     protected float posY;
     public float PosY
     {

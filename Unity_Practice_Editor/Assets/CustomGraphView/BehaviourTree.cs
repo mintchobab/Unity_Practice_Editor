@@ -7,9 +7,10 @@ using System;
 [CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "ScriptableObjects/Behaviour Tree", order = 1)]
 public class BehaviourTree : ScriptableObject, ISerializationCallbackReceiver
 {
+    [SerializeReference]
     public List<BehaviourNode> NodeList = new List<BehaviourNode>();
-    public List<BehaviourNodeData> NodeDataList = new List<BehaviourNodeData>();
-    
+    //public List<BehaviourNodeData> NodeDataList = new List<BehaviourNodeData>();
+
     public string RootNodeGuid;
 
     private BehaviourNode rootNode;
@@ -18,39 +19,49 @@ public class BehaviourTree : ScriptableObject, ISerializationCallbackReceiver
 
     public void OnBeforeSerialize()
     {
-        NodeDataList.Clear();
+        //NodeDataList.Clear();
 
-        for (int i = 0; i < NodeList.Count; i++)
-        {
-            BehaviourNodeData nodeData = new BehaviourNodeData();
-            nodeData.TypeName = NodeList[i].GetType().Name;
-            nodeData.Guid = NodeList[i].Guid;
-            nodeData.ParentNodeGuid = NodeList[i].ParentNodeGuid;
-            nodeData.ChildNodeGuidList = NodeList[i].ChildNodeGuidList;
-            nodeData.PosX = NodeList[i].PosX;
-            nodeData.PosY = NodeList[i].PosY;
+        //for (int i = 0; i < NodeList.Count; i++)
+        //{
+        //    BehaviourNodeData nodeData = new BehaviourNodeData();
+        //    nodeData.TypeName = NodeList[i].GetType().Name;
+        //    nodeData.Guid = NodeList[i].Guid;
+        //    nodeData.ParentNodeGuid = NodeList[i].ParentNodeGuid;
+        //    nodeData.ChildNodeGuidList = NodeList[i].ChildNodeGuidList;
+        //    nodeData.PosX = NodeList[i].PosX;
+        //    nodeData.PosY = NodeList[i].PosY;
 
-            NodeDataList.Add(nodeData);
-        }
+        //    if (NodeList[i] is MovePosition movePosition)
+        //    {
+        //        nodeData.MoveSpeed = movePosition.MoveSpeed;
+        //    }
+
+        //    NodeDataList.Add(nodeData);
+        //}
     }
 
     // 직렬화 후
     public void OnAfterDeserialize()
     {
-        NodeList.Clear();
+        //NodeList.Clear();
 
-        for (int i = 0; i < NodeDataList.Count; i++)
-        {
-            Type type = Type.GetType(NodeDataList[i].TypeName);
+        //for (int i = 0; i < NodeDataList.Count; i++)
+        //{
+        //    Type type = Type.GetType(NodeDataList[i].TypeName);
 
-            BehaviourNode node = Activator.CreateInstance(type, NodeDataList[i].Guid) as BehaviourNode;
-            node.PosX = NodeDataList[i].PosX;
-            node.PosY = NodeDataList[i].PosY;
-            node.ParentNodeGuid = NodeDataList[i].ParentNodeGuid;
-            node.ChildNodeGuidList = NodeDataList[i].ChildNodeGuidList;
+        //    BehaviourNode node = Activator.CreateInstance(type, NodeDataList[i].Guid) as BehaviourNode;
+        //    node.PosX = NodeDataList[i].PosX;
+        //    node.PosY = NodeDataList[i].PosY;
+        //    node.ParentNodeGuid = NodeDataList[i].ParentNodeGuid;
+        //    node.ChildNodeGuidList = NodeDataList[i].ChildNodeGuidList;
 
-            NodeList.Add(node);
-        };
+        //    if (node is MovePosition movePosition)
+        //    {
+        //        movePosition.MoveSpeed = NodeDataList[i].MoveSpeed;
+        //    }
+
+        //    NodeList.Add(node);
+        //};
     }
 
 
