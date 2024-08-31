@@ -1,5 +1,8 @@
+using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,10 +16,13 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
 
     public BehaviourNode Node { get; private set; }
 
+    private BehaviourTree tree;
 
-    public BehaviourNodeView(BehaviourNode inNode)
+
+    public BehaviourNodeView(BehaviourTree inTree, BehaviourNode inNode)
     {
         Node = inNode;
+        tree = inTree;
 
         style.width = 200;
         StyleColor inputColor = new Color(0.2f, 0.2f, 0.2f, 1f);
@@ -69,10 +75,12 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         inputContainer.Add(inputPort);
         outputContainer.Add(outputPort);
 
+        AddFields();
+        AddProperties();
+
         RefreshExpandedState();
         RefreshPorts();
     }
-
 
     private Port AddInputPort(Port.Capacity portCapacity)
     {
@@ -89,5 +97,54 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         outputPort.portName = "Output";
 
         return outputPort;
+    }
+
+
+    private void AddFields()
+    {
+        FieldInfo[] fields = Node.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+        foreach (FieldInfo field in fields)
+        {
+            Attribute nodeAttribute = Attribute.GetCustomAttribute(field, typeof(NodeFieldAttribute));
+
+            if (nodeAttribute != null)
+            {
+                if (field.FieldType == typeof(float))
+                {
+                    CreateField<float, FloatField>(field, () => new FloatField(field.Name));
+                } 
+                else if (field.FieldType == typeof(int))
+                {
+                    CreateField<int, IntegerField>(field, () => new IntegerField(field.Name));
+                }
+                else if (field.FieldType == typeof(string))
+                {
+                    CreateField<string, TextField>(field, () => new TextField(field.Name));
+                }
+            }
+        }
+
+
+        void CreateField<TValue, TField>(FieldInfo field, Func<TField> createField) where TField : BaseField<TValue>
+        {
+            TField fieldView = createField.Invoke();
+            fieldView.value = (TValue)field.GetValue(Node);
+
+            fieldView.RegisterValueChangedCallback(evt =>
+            {
+                field.SetValue(Node, evt.newValue);
+                EditorUtility.SetDirty(tree);
+            });
+
+            mainContainer.Add(fieldView);
+        }
+    }
+
+
+
+    private void AddProperties()
+    {
+
     }
 }

@@ -164,7 +164,7 @@ public class BehaviourTreeView : GraphView
 
     private void CreateNodeView(BehaviourNode node)
     {
-        BehaviourNodeView nodeView = new BehaviourNodeView(node);
+        BehaviourNodeView nodeView = new BehaviourNodeView(myBehaviourTree, node);
         nodeView.guid = node.Guid;
 
         nodeView.SetPosition(new Rect(new Vector2(node.PosX, node.PosY), Vector2.zero));

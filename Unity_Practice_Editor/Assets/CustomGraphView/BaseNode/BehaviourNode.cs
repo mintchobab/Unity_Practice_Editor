@@ -11,7 +11,7 @@ public enum NodeState
 
 
 [System.Serializable]
-public class BehaviourNode
+public abstract class BehaviourNode
 {
     [SerializeReference]
     protected string guid;
@@ -85,8 +85,5 @@ public class BehaviourNode
     }
 
 
-    public virtual NodeState Evaluate(BehaviourTree tree)
-    {
-        return NodeState.Failure;
-    }
+    public abstract NodeState Evaluate(BehaviourTree tree);
 }

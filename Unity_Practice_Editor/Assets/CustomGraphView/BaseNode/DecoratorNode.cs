@@ -5,7 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class DecoratorNode : BehaviourNode
 {
-    public DecoratorNode(string guid) : base(guid)
+    public DecoratorNode(string guid) : base(guid) { }
+
+    public override NodeState Evaluate(BehaviourTree tree)
     {
+        return NodeState.Failure;
     }
 }

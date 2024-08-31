@@ -3,9 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class RootNode : BehaviourNode
 {
-    public RootNode(string guid) : base(guid)
-    {
-    }
+    public RootNode(string guid) : base(guid) { Debug.LogWarning("bbbbbb"); }
 
     public override NodeState Evaluate(BehaviourTree tree)
     {

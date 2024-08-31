@@ -13,28 +13,37 @@ MonoBehaviour:
   m_Name: New Behaviour Tree
   m_EditorClassIdentifier: 
   NodeList:
-  - rid: 3747930156136136723
-  - rid: 3747930156136136724
-  - rid: 3747930156136136725
-  - rid: 3747930156136136726
-  RootNodeGuid: 4a6ba185-aea2-4cb8-b56d-dea7b6b9ef2c
+  - rid: 3747930185622093824
+  - rid: 3747930185622093825
+  - rid: 3747930185622093826
+  RootNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
   references:
     version: 2
     RefIds:
-    - rid: 3747930156136136723
+    - rid: 3747930185622093824
       type: {class: RootNode, ns: , asm: Assembly-CSharp}
       data:
-        guid: 4a6ba185-aea2-4cb8-b56d-dea7b6b9ef2c
-    - rid: 3747930156136136724
-      type: {class: SequenceNode, ns: , asm: Assembly-CSharp}
+        guid: 5a74de71-54f4-420a-a607-2422b961171e
+        parentNodeGuid: 
+        childNodeGuidList:
+        - 94004029-8353-4ac2-8b4a-3795ba6043a6
+        posX: 172
+        posY: 263
+    - rid: 3747930185622093825
+      type: {class: SelectorNode, ns: , asm: Assembly-CSharp}
       data:
-        guid: 3b2d2011-cccb-46cd-9592-7e3bdb78daae
-    - rid: 3747930156136136725
-      type: {class: TestNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: fba8d055-8011-4d41-8afb-f594a192f2fe
-    - rid: 3747930156136136726
+        guid: 94004029-8353-4ac2-8b4a-3795ba6043a6
+        parentNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
+        childNodeGuidList:
+        - 505272f4-ab1f-4748-b5be-b0f4e31656c7
+        posX: 430
+        posY: 263
+    - rid: 3747930185622093826
       type: {class: MovePosition, ns: , asm: Assembly-CSharp}
       data:
-        guid: d03a1f67-58ae-48fa-91e1-2c15c051fbd6
-        MoveSpeed: 10
+        guid: 505272f4-ab1f-4748-b5be-b0f4e31656c7
+        parentNodeGuid: 94004029-8353-4ac2-8b4a-3795ba6043a6
+        childNodeGuidList: []
+        posX: 714
+        posY: 263
+        MoveSpeed: 14
