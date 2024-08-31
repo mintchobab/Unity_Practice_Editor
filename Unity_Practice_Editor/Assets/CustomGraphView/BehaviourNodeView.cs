@@ -75,6 +75,8 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         inputContainer.Add(inputPort);
         outputContainer.Add(outputPort);
 
+        extensionContainer.style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+
         AddFields();
         AddProperties();
 
@@ -112,32 +114,32 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
             {
                 if (field.FieldType == typeof(float))
                 {
-                    CreateField<float, FloatField>(field, () => new FloatField(field.Name));
+                    CreateFieldView<float, FloatField>(field, () => new FloatField(field.Name));
                 } 
                 else if (field.FieldType == typeof(int))
                 {
-                    CreateField<int, IntegerField>(field, () => new IntegerField(field.Name));
+                    CreateFieldView<int, IntegerField>(field, () => new IntegerField(field.Name));
                 }
                 else if (field.FieldType == typeof(string))
                 {
-                    CreateField<string, TextField>(field, () => new TextField(field.Name));
+                    CreateFieldView<string, TextField>(field, () => new TextField(field.Name));
                 }
             }
         }
 
 
-        void CreateField<TValue, TField>(FieldInfo field, Func<TField> createField) where TField : BaseField<TValue>
+        void CreateFieldView<TValue, TField>(FieldInfo fieldInfo, Func<TField> createFunc) where TField : BaseField<TValue>
         {
-            TField fieldView = createField.Invoke();
-            fieldView.value = (TValue)field.GetValue(Node);
+            TField fieldView = createFunc.Invoke();
+            fieldView.value = (TValue)fieldInfo.GetValue(Node);
 
             fieldView.RegisterValueChangedCallback(evt =>
             {
-                field.SetValue(Node, evt.newValue);
+                fieldInfo.SetValue(Node, evt.newValue);
                 EditorUtility.SetDirty(tree);
             });
 
-            mainContainer.Add(fieldView);
+            extensionContainer.Add(fieldView);
         }
     }
 
@@ -145,6 +147,41 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
 
     private void AddProperties()
     {
+        PropertyInfo[] properties = Node.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
+        foreach (PropertyInfo property in properties)
+        {
+            Attribute nodeAttribute = Attribute.GetCustomAttribute(property, typeof(NodePropertyAttribute));
+
+            if (nodeAttribute != null)
+            {
+                if (property.PropertyType == typeof(float))
+                {
+                    CreatePropertyView<float, FloatField>(property, () => new FloatField(property.Name));
+                }
+                else if (property.PropertyType == typeof(int))
+                {
+                    CreatePropertyView<int, IntegerField>(property, () => new IntegerField(property.Name));
+                }
+                else if (property.PropertyType == typeof(string))
+                {
+                    CreatePropertyView<string, TextField>(property, () => new TextField(property.Name));
+                }
+            }
+        }
+
+        void CreatePropertyView<TValue, TField>(PropertyInfo propertyInfo, Func<TField> createFunc) where TField : BaseField<TValue>
+        {
+            TField fieldView = createFunc.Invoke();
+            fieldView.value = (TValue)propertyInfo.GetValue(Node);
+
+            fieldView.RegisterValueChangedCallback(evt =>
+            {
+                propertyInfo.SetValue(Node, evt.newValue);
+                EditorUtility.SetDirty(tree);
+            });
+
+            extensionContainer.Add(fieldView);
+        }
     }
 }

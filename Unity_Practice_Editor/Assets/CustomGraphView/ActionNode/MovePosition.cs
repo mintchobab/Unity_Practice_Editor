@@ -6,6 +6,16 @@ public class MovePosition : ActionNode
     [SerializeReference, NodeField]
     public float MoveSpeed;
 
+    [SerializeReference]
+    private float moveTime;
+
+    [NodeProperty]
+    public float MoveTime
+    {
+        get => moveTime;
+        set => moveTime = value;
+    }
+
     public MovePosition(string guid) : base(guid) { }
 
 

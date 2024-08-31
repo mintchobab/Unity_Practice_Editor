@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeList:
   - rid: 3747930185622093824
-  - rid: 3747930185622093825
-  - rid: 3747930185622093826
+  - rid: 3747930191426748416
   RootNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
   references:
     version: 2
@@ -25,25 +24,16 @@ MonoBehaviour:
       data:
         guid: 5a74de71-54f4-420a-a607-2422b961171e
         parentNodeGuid: 
-        childNodeGuidList:
-        - 94004029-8353-4ac2-8b4a-3795ba6043a6
+        childNodeGuidList: []
         posX: 172
         posY: 263
-    - rid: 3747930185622093825
-      type: {class: SelectorNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: 94004029-8353-4ac2-8b4a-3795ba6043a6
-        parentNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
-        childNodeGuidList:
-        - 505272f4-ab1f-4748-b5be-b0f4e31656c7
-        posX: 430
-        posY: 263
-    - rid: 3747930185622093826
+    - rid: 3747930191426748416
       type: {class: MovePosition, ns: , asm: Assembly-CSharp}
       data:
-        guid: 505272f4-ab1f-4748-b5be-b0f4e31656c7
-        parentNodeGuid: 94004029-8353-4ac2-8b4a-3795ba6043a6
+        guid: e536a852-9a0a-4f7f-a955-1a9fd2bb8faf
+        parentNodeGuid: 
         childNodeGuidList: []
-        posX: 714
+        posX: 513
         posY: 263
-        MoveSpeed: 14
+        MoveSpeed: 0
+        moveTime: 0
