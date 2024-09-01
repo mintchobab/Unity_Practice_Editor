@@ -58,6 +58,10 @@
 
 <br>
 
+블로그 개발 일지 : https://mintchobab.tistory.com/36
+
+<br>
+
 (현재 제작 중...)
 
 ![Behaviour Tree](./images/behaviour_tree_create.gif)
