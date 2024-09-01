@@ -48,10 +48,7 @@ public class BehaviourTreeView : GraphView
     {
         if (graphViewChange.movedElements != null)
         {
-            if (graphViewChange.movedElements.Count > 1)
-            {
-                Debug.LogWarning("2개 이상인 상황22");
-            }
+            List<string> parentNodeGuidList = new List<string>();
 
             foreach (GraphElement element in graphViewChange.movedElements)
             {
@@ -65,6 +62,16 @@ public class BehaviourTreeView : GraphView
                 BehaviourNode node = myBehaviourTree.FindNode(nodeView.guid);
                 node.PosX = newPosition.x;
                 node.PosY = newPosition.y;
+
+                if (!parentNodeGuidList.Contains(node.ParentNodeGuid))
+                    parentNodeGuidList.Add(node.ParentNodeGuid);
+            }
+
+            // 정렬 중복하지 않기 위해 사용
+            foreach (string parentGuid in parentNodeGuidList)
+            {
+                BehaviourNode parentNode = myBehaviourTree.FindNode(parentGuid);
+                parentNode.SortChildNodeByPositionY(myBehaviourTree);
             }
         }
         else if (graphViewChange.edgesToCreate != null)
@@ -84,6 +91,7 @@ public class BehaviourTreeView : GraphView
 
                 inputNode.Node.ParentNodeGuid = outputNode.guid;
                 outputNode.Node.AddChildNode(inputNode.guid);
+                outputNode.Node.SortChildNodeByPositionY(myBehaviourTree);
             }
         }
         // 엣지가 지워지는것도 같이 감지됨

@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class TestNode : ActionNode
+public class TestNode2 : ActionNode
 {
-    public TestNode(string guid) : base(guid) { }
+    public TestNode2(string guid) : base(guid) { }
 
     public override NodeState Evaluate(BehaviourTree tree)
     {
-        Debug.LogWarning("Node : TestNode");
+        Debug.LogWarning("Node : TestNode2");
 
         return NodeState.Success;
     }

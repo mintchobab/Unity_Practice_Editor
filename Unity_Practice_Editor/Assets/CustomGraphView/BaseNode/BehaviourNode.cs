@@ -58,30 +58,35 @@ public abstract class BehaviourNode
     }
 
 
-    public BehaviourNode(string guid)
+    public BehaviourNode(string inGuid)
     {
-        this.guid = guid;
+        this.guid = inGuid;
     }
 
 
     protected NodeState nodeState;
 
 
-    public void AddChildNode(string guid)
+    public void AddChildNode(string inGuid)
     {
-        if (childNodeGuidList.Contains(guid))
+        if (childNodeGuidList.Contains(inGuid))
             return;
 
-        childNodeGuidList.Add(guid);
+        childNodeGuidList.Add(inGuid);
     }
 
 
-    public void RemoveChildNode(string guid)
+    public void RemoveChildNode(string inGuid)
     {
-        if (!childNodeGuidList.Contains(guid))
+        if (!childNodeGuidList.Contains(inGuid))
             return;
 
-        childNodeGuidList.Remove(guid);
+        childNodeGuidList.Remove(inGuid);
+    }
+
+    public void SortChildNodeByPositionY(BehaviourTree tree)
+    {
+        childNodeGuidList.Sort((a, b) => tree.FindNode(a).PosY.CompareTo(tree.FindNode(b).PosY));
     }
 
 
