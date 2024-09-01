@@ -14,26 +14,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeList:
   - rid: 3747930185622093824
-  - rid: 3747930191426748416
+  - rid: 1860184583409238016
+  - rid: 1860184583409238017
+  - rid: 1860184583409238018
   RootNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
   references:
     version: 2
     RefIds:
+    - rid: 1860184583409238016
+      type: {class: SequenceNode, ns: , asm: Assembly-CSharp}
+      data:
+        guid: 923a88a1-fe64-4a9f-90d0-67dae2592e00
+        parentNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
+        childNodeGuidList:
+        - 942efb19-05b5-4594-b2cb-05e5cd018c6f
+        - 79a9c971-c1ad-4f6c-91aa-08611f3a1549
+        posX: 516
+        posY: 263
+    - rid: 1860184583409238017
+      type: {class: TestNode, ns: , asm: Assembly-CSharp}
+      data:
+        guid: 942efb19-05b5-4594-b2cb-05e5cd018c6f
+        parentNodeGuid: 923a88a1-fe64-4a9f-90d0-67dae2592e00
+        childNodeGuidList: []
+        posX: 901
+        posY: 258
+    - rid: 1860184583409238018
+      type: {class: WaitNode, ns: , asm: Assembly-CSharp}
+      data:
+        guid: 79a9c971-c1ad-4f6c-91aa-08611f3a1549
+        parentNodeGuid: 923a88a1-fe64-4a9f-90d0-67dae2592e00
+        childNodeGuidList: []
+        posX: 901
+        posY: 480
     - rid: 3747930185622093824
       type: {class: RootNode, ns: , asm: Assembly-CSharp}
       data:
         guid: 5a74de71-54f4-420a-a607-2422b961171e
         parentNodeGuid: 
-        childNodeGuidList: []
+        childNodeGuidList:
+        - 923a88a1-fe64-4a9f-90d0-67dae2592e00
         posX: 172
         posY: 263
-    - rid: 3747930191426748416
-      type: {class: MovePosition, ns: , asm: Assembly-CSharp}
-      data:
-        guid: e536a852-9a0a-4f7f-a955-1a9fd2bb8faf
-        parentNodeGuid: 
-        childNodeGuidList: []
-        posX: 513
-        posY: 263
-        MoveSpeed: 0
-        moveTime: 0

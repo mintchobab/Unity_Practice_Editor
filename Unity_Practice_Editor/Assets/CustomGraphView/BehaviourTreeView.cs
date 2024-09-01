@@ -125,40 +125,32 @@ public class BehaviourTreeView : GraphView
         base.BuildContextualMenu(evt);
 
         // 마우스 우 클릭 이벤트
-        BuildContextualMenuInternal(typeof(CompositeNode), 0, "Create Node/Composite Node/", "Assets/CustomGraphView/CompositeNode");
-        BuildContextualMenuInternal(typeof(DecoratorNode), 1, "Create Node/Decorator Node/", "Assets/CustomGraphView/DecoratorNode");
-        BuildContextualMenuInternal(typeof(ActionNode), 2, "Create Node/Action Node/", "Assets/CustomGraphView/ActionNode");
+        BuildContextualMenuInternal<CompositeNode>(0, "Create Node/Composite Node");
+        BuildContextualMenuInternal<DecoratorNode>(1, "Create Node/Decorator Node");
+        BuildContextualMenuInternal<ActionNode>(2, "Create Node/Action Node");
 
-        void BuildContextualMenuInternal(Type parentNodeType, int actionIndex, string actionName, string folderPath)
+        void BuildContextualMenuInternal<TNode>(int actionIndex, string actionName) where TNode : BehaviourNode
         {
-            string[] guids = AssetDatabase.FindAssets("t:MonoScript", new[] { folderPath });
+            var nodeTypeList = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => type.IsClass && type.IsSubclassOf(typeof(TNode)))
+                .ToList();
 
-            foreach (string guid in guids)
+            if (nodeTypeList.Count == 0)
+                return;
+
+            foreach (Type nodeType in nodeTypeList)
             {
-                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath);
-
-                if (script == null)
-                    continue;
-
-                System.Type scriptType = script.GetClass();
-
-                if (scriptType != null && scriptType.IsSubclassOf(parentNodeType))
+                evt.menu.InsertAction(actionIndex, $"{actionName}/{nodeType.Name}", (action) =>
                 {
-                    evt.menu.InsertAction(actionIndex, $"{actionName}{scriptType.Name}", (action) => OnCreatedNode(scriptType, myBehaviourTree, action.eventInfo.mousePosition));
-                }
+                    BehaviourNode node = myBehaviourTree.CreateNode(nodeType);
+                    node.PosX = action.eventInfo.mousePosition.x;
+                    node.PosY = action.eventInfo.mousePosition.y;
+
+                    CreateNodeView(node);
+                });
             }
         }
-    }
-
-
-    private void OnCreatedNode(Type nodeType, BehaviourTree tree, Vector2 position)
-    {
-        BehaviourNode node = tree.CreateNode(nodeType);
-        node.PosX = position.x;
-        node.PosY = position.y;
-
-        CreateNodeView(node);
     }
 
 
