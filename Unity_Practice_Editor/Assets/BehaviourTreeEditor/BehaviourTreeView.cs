@@ -63,7 +63,7 @@ public class BehaviourTreeView : GraphView
                 node.PosX = newPosition.x;
                 node.PosY = newPosition.y;
 
-                if (!parentNodeGuidList.Contains(node.ParentNodeGuid))
+                if (!string.IsNullOrEmpty(node.ParentNodeGuid) && !parentNodeGuidList.Contains(node.ParentNodeGuid))
                     parentNodeGuidList.Add(node.ParentNodeGuid);
             }
 
