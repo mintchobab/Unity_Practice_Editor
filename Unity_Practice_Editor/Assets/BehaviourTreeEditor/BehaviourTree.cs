@@ -13,6 +13,7 @@ public class BehaviourTree : ScriptableObject
     public string RootNodeGuid;
 
     private BehaviourNode rootNode;
+    private Blackboard blackboard;
 
     public BehaviourTreeContext Context { get; private set; }
 
@@ -62,6 +63,9 @@ public class BehaviourTree : ScriptableObject
 
     public void Evaluate(BehaviourTreeContext context)
     {
+        if (blackboard == null)
+            blackboard = new Blackboard();
+
         if (rootNode == null)
             rootNode = FindNode(RootNodeGuid);
 
