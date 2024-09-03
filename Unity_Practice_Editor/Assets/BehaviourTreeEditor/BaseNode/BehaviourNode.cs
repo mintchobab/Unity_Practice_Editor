@@ -65,6 +65,7 @@ public abstract class BehaviourNode
 
 
     protected NodeState nodeState;
+    protected BehaviourTree tree;
 
 
     public void AddChildNode(string inGuid)
@@ -84,11 +85,16 @@ public abstract class BehaviourNode
         childNodeGuidList.Remove(inGuid);
     }
 
-    public void SortChildNodeByPositionY(BehaviourTree tree)
+    public void SortChildNodeByPositionY(BehaviourTree inTree)
     {
-        childNodeGuidList.Sort((a, b) => tree.FindNode(a).PosY.CompareTo(tree.FindNode(b).PosY));
+        childNodeGuidList.Sort((a, b) => inTree.FindNode(a).PosY.CompareTo(inTree.FindNode(b).PosY));
     }
 
 
-    public abstract NodeState Evaluate(BehaviourTree tree);
+    public virtual void Init(BehaviourTree tree) 
+    {
+        this.tree = tree;
+    }
+
+    public abstract NodeState Evaluate();
 }

@@ -19,8 +19,7 @@ public class MovePosition : ActionNode
     public MovePosition(string guid) : base(guid) { }
 
 
-    // 시작할 때 실행되는 함수가 필요하다 or 맨처음 한번만 실행하는...???
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override NodeState Evaluate()
     {
         Debug.LogWarning("Move Speed : " + MoveSpeed);
 

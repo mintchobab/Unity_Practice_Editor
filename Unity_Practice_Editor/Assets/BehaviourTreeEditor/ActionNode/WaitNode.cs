@@ -16,7 +16,7 @@ public class WaitNode : ActionNode
 
     public WaitNode(string guid) : base(guid) { }
 
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override NodeState Evaluate()
     {
         if (elapsedTime < waitTime)
         {
@@ -25,7 +25,6 @@ public class WaitNode : ActionNode
         }
         else
         {
-            Debug.LogWarning("성공성공성공");
             elapsedTime = 0f;
             return NodeState.Success;
         }        

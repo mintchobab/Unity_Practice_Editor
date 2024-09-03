@@ -7,7 +7,7 @@ public class CompositeNode : BehaviourNode
 {
     public CompositeNode(string guid) : base(guid) { }
 
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override NodeState Evaluate()
     {
         return NodeState.Failure;
     }

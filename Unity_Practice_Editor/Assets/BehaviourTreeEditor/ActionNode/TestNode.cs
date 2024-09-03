@@ -7,10 +7,15 @@ public class TestNode : ActionNode
 {
     public TestNode(string guid) : base(guid) { }
 
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override void Init(BehaviourTree tree)
     {
-        Debug.LogWarning("Node : TestNode");
+        base.Init(tree);
 
+        tree.Blackboard.SetData<string>("Test Key", "TestValue");
+    }
+
+    public override NodeState Evaluate()
+    {
         return NodeState.Success;
     }
 }

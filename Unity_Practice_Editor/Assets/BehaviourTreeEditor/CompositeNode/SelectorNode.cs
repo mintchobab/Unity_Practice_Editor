@@ -7,7 +7,7 @@ public class SelectorNode : CompositeNode
     {
     }
 
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override NodeState Evaluate()
     {
         foreach (string nodeGuid in childNodeGuidList)
         {
@@ -19,7 +19,7 @@ public class SelectorNode : CompositeNode
                 continue;
             }
 
-            switch (node.Evaluate(tree))
+            switch (node.Evaluate())
             {
                 case NodeState.Failure:
                     continue;

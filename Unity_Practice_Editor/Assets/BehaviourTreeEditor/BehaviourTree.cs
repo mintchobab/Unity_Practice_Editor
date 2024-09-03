@@ -13,8 +13,8 @@ public class BehaviourTree : ScriptableObject
     public string RootNodeGuid;
 
     private BehaviourNode rootNode;
-    private Blackboard blackboard;
 
+    public Blackboard Blackboard { get; private set; }
     public BehaviourTreeContext Context { get; private set; }
 
 
@@ -61,18 +61,33 @@ public class BehaviourTree : ScriptableObject
     }
 
 
-    public void Evaluate(BehaviourTreeContext context)
+    public void Init(BehaviourTreeContext context)
     {
-        if (blackboard == null)
-            blackboard = new Blackboard();
+        this.Blackboard = new Blackboard();
+        this.Context = context;
 
-        if (rootNode == null)
-            rootNode = FindNode(RootNodeGuid);
+        if (string.IsNullOrEmpty(RootNodeGuid))
+            Debug.LogError($"{nameof(BehaviourTree)} : Root Node Guid is Empty");
 
-        if (this.Context != context)
-            this.Context = context;
+        rootNode = FindNode(RootNodeGuid);
 
-        rootNode.Evaluate(this);
+        InitRecursive(rootNode);
+    }
+
+    private void InitRecursive(BehaviourNode node)
+    {
+        node.Init(this);
+
+        List<string> nodeGuidList = FindNode(node.Guid).ChildNodeGuidList;
+
+        foreach(string guid in nodeGuidList)
+            InitRecursive(FindNode(guid));
+    }
+
+
+    public void Evaluate()
+    {
+        rootNode.Evaluate();
     }
 }
 

@@ -9,7 +9,7 @@ public class SequenceNode : CompositeNode
     {
     }
 
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override NodeState Evaluate()
     {
         foreach (string nodeGuid in childNodeGuidList)
         {
@@ -21,7 +21,7 @@ public class SequenceNode : CompositeNode
                 continue;
             }
 
-            switch (node.Evaluate(tree))
+            switch (node.Evaluate())
             {
                 case NodeState.Failure:
                     nodeState = NodeState.Failure;

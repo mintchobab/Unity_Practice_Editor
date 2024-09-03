@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-[System.Serializable]
-public class Blackboard : MonoBehaviour
+public class Blackboard
 {
     private Dictionary<Type, IDictionary> blackboardDictionary = new Dictionary<Type, IDictionary>();
 

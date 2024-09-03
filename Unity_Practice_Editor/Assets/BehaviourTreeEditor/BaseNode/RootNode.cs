@@ -5,7 +5,7 @@ public class RootNode : BehaviourNode
 {
     public RootNode(string guid) : base(guid) { Debug.LogWarning("bbbbbb"); }
 
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override NodeState Evaluate()
     {
         foreach (string nodeGuid in childNodeGuidList)
         {
@@ -18,7 +18,7 @@ public class RootNode : BehaviourNode
             }
 
             // TODO : Å×½ºÆ®
-            node.Evaluate(tree);
+            node.Evaluate();
         }
 
         return NodeState.Success;

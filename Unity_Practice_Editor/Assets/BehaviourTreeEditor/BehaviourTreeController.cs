@@ -4,15 +4,14 @@ public class BehaviourTreeController : MonoBehaviour
 {
     public BehaviourTree BehaviourTree;
 
-    private BehaviourTreeContext context;
-
     private void Awake()
     {
-        context = new BehaviourTreeContext(gameObject);
+        BehaviourTreeContext context = new BehaviourTreeContext(gameObject);
+        BehaviourTree.Init(context);
     }
 
     private void Update()
     {
-        BehaviourTree.Evaluate(context);
+        BehaviourTree.Evaluate();
     }
 }

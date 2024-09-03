@@ -20,7 +20,7 @@ public class ParallelNode : CompositeNode
 
     public ParallelNode(string guid) : base(guid) { }
 
-    public override NodeState Evaluate(BehaviourTree tree)
+    public override NodeState Evaluate()
     {
         anyRunning = false;
 
@@ -37,15 +37,15 @@ public class ParallelNode : CompositeNode
                 continue;
             }
 
-            if (node.Evaluate(tree) == NodeState.Success)
+            if (node.Evaluate() == NodeState.Success)
             {
                 successCount++;
             }
-            else if (node.Evaluate(tree) == NodeState.Failure)
+            else if (node.Evaluate() == NodeState.Failure)
             {
                 failureCount++;
             }
-            else if (node.Evaluate(tree) == NodeState.Running)
+            else if (node.Evaluate() == NodeState.Running)
             {
                 anyRunning = true;
             }

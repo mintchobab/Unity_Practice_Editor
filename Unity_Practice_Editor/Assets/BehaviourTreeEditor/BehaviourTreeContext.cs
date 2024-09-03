@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BehaviourTreeContext : MonoBehaviour
+public class BehaviourTreeContext
 {
     public GameObject GameObject { get; private set; }
     public Transform Transform { get; private set; }
