@@ -62,9 +62,25 @@
 
 <br>
 
-(현재 제작 중...)
+(현재 기능 제작중입니다.)
 
-![Behaviour Tree](./images/behaviour_tree_create.gif)
+<br>
+
+
+#### Node 타입별 생성 가능
+
+![Create Node](./images/behaviour_tree_create_node.gif)
 
 <br>
 <br>
+
+#### Node Field & Property
+
+![Node Property](./images/behaviour_tree_node_variable.png)
+
+<br>
+<br>
+
+#### Tree Settings
+
+![Tree Settings](./images/behaviour_tree_settings.png)
