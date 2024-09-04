@@ -50,7 +50,7 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
             inputColor = new Color(0f / 255f, 132f / 255f, 43f / 255f, 1f);
 
             inputPort = AddInputPort(Port.Capacity.Single);
-            outputPort = AddOutputPort(Port.Capacity.Multi);
+            outputPort = AddOutputPort(Port.Capacity.Single);
         }
         else if (Node is ActionNode)
         {
@@ -76,6 +76,11 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         outputContainer.Add(outputPort);
 
         extensionContainer.style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+        extensionContainer.style.overflow = Overflow.Visible;
+        
+        // NOTE : 순서 주의하기
+
+        AddNodeImage();
 
         AddFields();
         AddProperties();
@@ -83,6 +88,7 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         RefreshExpandedState();
         RefreshPorts();
     }
+
 
     private Port AddInputPort(Port.Capacity portCapacity)
     {
@@ -99,6 +105,29 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         outputPort.portName = "Output";
 
         return outputPort;
+    }
+
+    private void AddNodeImage()
+    {
+        Image image = new Image();
+
+        if (Node is SequenceNode)
+        {
+            image.image = BehaviourTreeSettings.Instance.SequenceTexture;
+        }
+        else if (Node is SelectorNode)
+        {
+            image.image = BehaviourTreeSettings.Instance.SelectorTexture;
+        }
+
+        if (image.image == null)
+            return;
+
+        image.style.width = 70;
+        image.style.height = 70;
+        image.style.alignSelf = Align.Center;
+
+        extensionContainer.Add(image);
     }
 
 

@@ -14,7 +14,7 @@ public class BehaviourTree : ScriptableObject
 
     private BehaviourNode rootNode;
 
-    public Blackboard Blackboard { get; private set; }
+    public BehaviourTreeBlackboard Blackboard { get; private set; }
     public BehaviourTreeContext Context { get; private set; }
 
 
@@ -63,7 +63,7 @@ public class BehaviourTree : ScriptableObject
 
     public void Init(BehaviourTreeContext context)
     {
-        this.Blackboard = new Blackboard();
+        this.Blackboard = new BehaviourTreeBlackboard();
         this.Context = context;
 
         if (string.IsNullOrEmpty(RootNodeGuid))

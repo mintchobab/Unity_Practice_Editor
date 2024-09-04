@@ -205,13 +205,14 @@ public class BehaviourTreeView : GraphView
 
     private void OnSelectedNode(MouseDownEvent evt, BehaviourNodeView nodeView)
     {
-        if (evt.clickCount == 1)
-        {
-            //Selection.activeObject = myBehaviourTree.FindNode(nodeView.guid);
-
-            // 트리에서 찾기
-            //Debug.Log($"{nodeView.guid}");
-        }
+        //if (evt.clickCount == 1)
+        //{
+        //    BehaviourTreeEditorWindow.UpdateLeftPanel(nodeView);
+        //}
+        //else
+        //{
+        //    BehaviourTreeEditorWindow.ClearLeftPanel();
+        //}
     }
 
 

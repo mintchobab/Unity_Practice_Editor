@@ -11,7 +11,7 @@ public class TestNode : ActionNode
     {
         base.Init(tree);
 
-        tree.Blackboard.SetData<string>("Test Key", "TestValue");
+        tree.Blackboard.SetData<string>("Test Key", "Test String Value");
     }
 
     public override NodeState Evaluate()
