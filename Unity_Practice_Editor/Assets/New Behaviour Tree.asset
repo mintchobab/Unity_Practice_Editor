@@ -14,65 +14,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeList:
   - rid: 3747930185622093824
-  - rid: 1860184591813050369
-  - rid: 1860184627590987781
-  - rid: 1860184653825310720
-  - rid: 1860184653825310721
-  - rid: 1860184653825310722
+  - rid: 1860184661222752260
+  - rid: 1860184661222752261
+  - rid: 1860184661222752262
   RootNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
   references:
     version: 2
     RefIds:
-    - rid: 1860184591813050369
+    - rid: 1860184661222752260
       type: {class: SequenceNode, ns: , asm: Assembly-CSharp}
       data:
-        guid: 83d064d8-44f1-4aaf-b80c-83837b05ad54
-        parentNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
-        childNodeGuidList:
-        - 91c58fa9-8273-4fac-be1e-282a64da5d3f
-        - 4a8ca1b6-56bb-4c7d-bbf7-12dcf250c611
-        posX: 541
-        posY: 282
-    - rid: 1860184627590987781
-      type: {class: TestNode2, ns: , asm: Assembly-CSharp}
-      data:
-        guid: 4a8ca1b6-56bb-4c7d-bbf7-12dcf250c611
-        parentNodeGuid: 83d064d8-44f1-4aaf-b80c-83837b05ad54
-        childNodeGuidList: []
-        posX: 869
-        posY: 444
-    - rid: 1860184653825310720
-      type: {class: TestNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: 91c58fa9-8273-4fac-be1e-282a64da5d3f
-        parentNodeGuid: 83d064d8-44f1-4aaf-b80c-83837b05ad54
-        childNodeGuidList: []
-        posX: 869
-        posY: 205
-    - rid: 1860184653825310721
-      type: {class: MovePosition, ns: , asm: Assembly-CSharp}
-      data:
-        guid: 2b29c62f-7e31-4257-858c-1f791d4d7d9e
+        guid: 9373aa25-486c-41ff-877e-0f5412832af5
         parentNodeGuid: 
         childNodeGuidList: []
-        posX: 869
-        posY: 630
-        MoveSpeed: 0
-        moveTime: 0
-    - rid: 1860184653825310722
+        posX: 483
+        posY: 319
+    - rid: 1860184661222752261
       type: {class: SelectorNode, ns: , asm: Assembly-CSharp}
       data:
-        guid: 12d26eee-8b5b-487c-8106-ffb18c1bcdda
+        guid: ca680b2a-8b1c-40d5-905d-53ae83d6d25e
         parentNodeGuid: 
         childNodeGuidList: []
-        posX: 541
-        posY: 553
+        posX: 707
+        posY: 319
+    - rid: 1860184661222752262
+      type: {class: WaitNode, ns: , asm: Assembly-CSharp}
+      data:
+        guid: b38bcb4a-915d-47db-980c-32d93b997a30
+        parentNodeGuid: 
+        childNodeGuidList: []
+        posX: 931
+        posY: 319
     - rid: 3747930185622093824
       type: {class: RootNode, ns: , asm: Assembly-CSharp}
       data:
         guid: 5a74de71-54f4-420a-a607-2422b961171e
         parentNodeGuid: 
-        childNodeGuidList:
-        - 83d064d8-44f1-4aaf-b80c-83837b05ad54
-        posX: 237
-        posY: 282
+        childNodeGuidList: []
+        posX: 262
+        posY: 319

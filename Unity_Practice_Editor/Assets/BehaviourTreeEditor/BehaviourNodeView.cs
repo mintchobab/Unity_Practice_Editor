@@ -77,7 +77,7 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
 
         extensionContainer.style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
         extensionContainer.style.overflow = Overflow.Visible;
-        
+
         // NOTE : 순서 주의하기
 
         AddNodeImage();
@@ -118,6 +118,10 @@ public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
         else if (Node is SelectorNode)
         {
             image.image = BehaviourTreeSettings.Instance.SelectorTexture;
+        }
+        else if (Node is WaitNode)
+        {
+            image.image = BehaviourTreeSettings.Instance.WaitTexture;
         }
 
         if (image.image == null)

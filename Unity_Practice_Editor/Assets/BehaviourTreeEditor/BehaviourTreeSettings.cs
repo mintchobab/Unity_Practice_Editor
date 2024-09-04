@@ -7,6 +7,7 @@ public class BehaviourTreeSettings : ScriptableObject
 
     public Texture2D SequenceTexture;
     public Texture2D SelectorTexture;
+    public Texture2D WaitTexture;
 
 
     private static BehaviourTreeSettings instance;

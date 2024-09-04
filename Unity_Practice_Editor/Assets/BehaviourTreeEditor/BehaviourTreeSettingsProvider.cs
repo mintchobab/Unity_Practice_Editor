@@ -19,6 +19,7 @@ public class BehaviourTreeSettingsProvider : SettingsProvider
 
         settings.SequenceTexture = EditorGUILayout.ObjectField("Sequence Node Texture", settings.SequenceTexture, typeof(Texture2D), false) as Texture2D;
         settings.SelectorTexture = EditorGUILayout.ObjectField("Selector Node Texture", settings.SelectorTexture, typeof(Texture2D), false) as Texture2D;
+        settings.WaitTexture = EditorGUILayout.ObjectField("Wait Node Texture", settings.WaitTexture, typeof(Texture2D), false) as Texture2D;
 
         if (GUI.changed)
         {
