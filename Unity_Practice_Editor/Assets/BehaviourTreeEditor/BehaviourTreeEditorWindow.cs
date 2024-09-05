@@ -58,68 +58,68 @@ public class BehaviourTreeEditorWindow : GraphViewEditorWindow
         leftPanel = new VisualElement();
         leftPanel.style.minWidth = 300f;
 
-        VisualElement leftUpContainer = new VisualElement();
-        VisualElement leftDownContainer = new VisualElement();
-        leftDownContainer.style.flexGrow = 1;
-        leftUpContainer.style.flexGrow = 1;        
+        //VisualElement leftUpContainer = new VisualElement();
+        //VisualElement leftDownContainer = new VisualElement();
+        //leftDownContainer.style.flexGrow = 1;
+        //leftUpContainer.style.flexGrow = 1;        
 
-        VisualElement tabContainer = new VisualElement();
-        tabContainer.style.flexDirection = FlexDirection.Row; // 가로로 요소 배치
-        tabContainer.style.justifyContent = Justify.FlexStart; // 왼쪽 정렬
-        tabContainer.style.alignItems = Align.Center; // 수직 중앙 정렬
+        //VisualElement tabContainer = new VisualElement();
+        //tabContainer.style.flexDirection = FlexDirection.Row;
+        //tabContainer.style.justifyContent = Justify.FlexStart;
+        //tabContainer.style.alignItems = Align.Center;
 
-        // Setting Button
-        Button tabButton = new Button(() =>
-        {
-            Debug.LogWarning("테스트 버튼");
-        });
+        //// Setting Button
+        //Button tabButton = new Button(() =>
+        //{
+        //    Debug.LogWarning("테스트 버튼");
+        //});
 
-        tabButton.style.flexGrow = 1;
-        tabButton.style.marginLeft = 0;
-        tabButton.style.marginRight = 0;
+        //tabButton.style.flexGrow = 1;
+        //tabButton.style.marginLeft = 0;
+        //tabButton.style.marginRight = 0;
 
-        tabContainer.Add(tabButton);
-
-
-        // Test Button
-        Button tabButton2 = new Button();
-        tabButton2.style.flexGrow = 1;
-        tabButton2.style.marginLeft = 0;
-        tabButton2.style.marginRight = 0;
-
-        tabContainer.Add(tabButton2);
-
-        VisualElement tabContentsContainer = new VisualElement();
-        ObjectField textureField = new ObjectField()
-        {
-            objectType = typeof(Texture2D)
-        };
-
-        textureField.RegisterValueChangedCallback(evt =>
-        {
-            testTexture2D = (Texture2D)evt.newValue;
-        });
-
-        tabContentsContainer.Add(textureField);
+        //tabContainer.Add(tabButton);
 
 
-        leftUpContainer.Add(tabContainer);
-        leftUpContainer.Add(tabContentsContainer);
+        //// Test Button
+        //Button tabButton2 = new Button();
+        //tabButton2.style.flexGrow = 1;
+        //tabButton2.style.marginLeft = 0;
+        //tabButton2.style.marginRight = 0;
+
+        //tabContainer.Add(tabButton2);
+
+        //VisualElement tabContentsContainer = new VisualElement();
+        //ObjectField textureField = new ObjectField()
+        //{
+        //    objectType = typeof(Texture2D)
+        //};
+
+        //textureField.RegisterValueChangedCallback(evt =>
+        //{
+        //    testTexture2D = (Texture2D)evt.newValue;
+        //});
+
+        //tabContentsContainer.Add(textureField);
 
 
-        // 수평선
-        Box horizontalLine = new Box();
+        //leftUpContainer.Add(tabContainer);
+        //leftUpContainer.Add(tabContentsContainer);
 
-        horizontalLine.style.height = 1;
-        horizontalLine.style.width = Length.Percent(100);
-        horizontalLine.style.backgroundColor = new StyleColor(Color.black);        
 
-        leftDownContainer.Add(horizontalLine);
+        //// 수평선
+        //Box horizontalLine = new Box();
 
-        leftDownContainer.Add(new TextField("Test"));
+        //horizontalLine.style.height = 1;
+        //horizontalLine.style.width = Length.Percent(100);
+        //horizontalLine.style.backgroundColor = new StyleColor(Color.black);        
 
-        leftPanel.Add(leftUpContainer);
-        leftPanel.Add(leftDownContainer);
+        //leftDownContainer.Add(horizontalLine);
+
+        //leftDownContainer.Add(new TextField("Test"));
+
+        //leftPanel.Add(leftUpContainer);
+        //leftPanel.Add(leftDownContainer);
 
         splitView.Add(leftPanel);
     }
