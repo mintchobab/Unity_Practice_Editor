@@ -1,47 +1,50 @@
 using UnityEditor;
 using UnityEngine;
 
-public class BehaviourTreeSettings : ScriptableObject
+namespace Mintchobab
 {
-    public const string SettingsPath = "Assets/BehaviourTreeEditor/BehaviourTreeSettings.asset";
-
-    public Texture2D SequenceTexture;
-    public Texture2D SelectorTexture;
-    public Texture2D WaitTexture;
-
-
-    private static BehaviourTreeSettings instance;
-
-    public static BehaviourTreeSettings Instance
+    public class BehaviourTreeSettings : ScriptableObject
     {
-        get
+        public const string SettingsPath = "Assets/BehaviourTreeEditor/BehaviourTreeSettings.asset";
+
+        public Texture2D SequenceTexture;
+        public Texture2D SelectorTexture;
+        public Texture2D WaitTexture;
+
+
+        private static BehaviourTreeSettings instance;
+
+        public static BehaviourTreeSettings Instance
         {
-            if (instance == null)
+            get
             {
-                instance = GetOrCreateSettings();
+                if (instance == null)
+                {
+                    instance = GetOrCreateSettings();
+                }
+
+                return instance;
+            }
+        }
+
+        public static BehaviourTreeSettings GetOrCreateSettings()
+        {
+            var settings = AssetDatabase.LoadAssetAtPath<BehaviourTreeSettings>(SettingsPath);
+
+            if (settings == null)
+            {
+                settings = ScriptableObject.CreateInstance<BehaviourTreeSettings>();
+                AssetDatabase.CreateAsset(settings, SettingsPath);
+                AssetDatabase.SaveAssets();
             }
 
-            return instance;
+            return settings;
         }
-    }
 
-    public static BehaviourTreeSettings GetOrCreateSettings()
-    {
-        var settings = AssetDatabase.LoadAssetAtPath<BehaviourTreeSettings>(SettingsPath);
-
-        if (settings == null)
+        public void Save()
         {
-            settings = ScriptableObject.CreateInstance<BehaviourTreeSettings>();
-            AssetDatabase.CreateAsset(settings, SettingsPath);
+            EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
         }
-
-        return settings;
-    }
-
-    public void Save()
-    {
-        EditorUtility.SetDirty(this);
-        AssetDatabase.SaveAssets();
     }
 }

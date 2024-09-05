@@ -1,7 +1,10 @@
 using System;
 
-[AttributeUsage(AttributeTargets.Field)]
-public class NodeFieldAttribute : Attribute
+namespace Mintchobab
 {
-    public NodeFieldAttribute() { }
+    [AttributeUsage(AttributeTargets.Field)]
+    public class NodeFieldAttribute : Attribute
+    {
+        public NodeFieldAttribute() { }
+    }
 }

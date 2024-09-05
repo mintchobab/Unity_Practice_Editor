@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class BehaviourTreeController : MonoBehaviour
+namespace Mintchobab
 {
-    public BehaviourTree BehaviourTree;
-
-    private void Awake()
+    public class BehaviourTreeController : MonoBehaviour
     {
-        BehaviourTreeContext context = new BehaviourTreeContext(gameObject);
-        BehaviourTree.Init(context);
-    }
+        public BehaviourTree BehaviourTree;
 
-    private void Update()
-    {
-        BehaviourTree.Evaluate();
+        private void Awake()
+        {
+            BehaviourTreeContext context = new BehaviourTreeContext(gameObject);
+            BehaviourTree.Init(context);
+        }
+
+        private void Update()
+        {
+            BehaviourTree.Evaluate();
+        }
     }
 }

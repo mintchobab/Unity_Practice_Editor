@@ -1,62 +1,65 @@
 using UnityEngine;
 
-public class ParallelNode : CompositeNode
+namespace Mintchobab
 {
-    [SerializeReference]
-    private int successThreshold;
-
-    [NodeProperty]
-    public int SuccessThreshold
+    public class ParallelNode : CompositeNode
     {
-        get => successThreshold; 
-        set => successThreshold = value;
-    }
+        [SerializeReference]
+        private int successThreshold;
 
-    private bool anyRunning;
-
-    private int successCount;
-    private int failureCount;
-
-
-    public ParallelNode(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
-    {
-        anyRunning = false;
-
-        successCount = 0;
-        failureCount = 0;
-
-        foreach (string nodeGuid in childNodeGuidList)
+        [NodeProperty]
+        public int SuccessThreshold
         {
-            var node = tree.FindNode(nodeGuid);
-
-            if (node == null)
-            {
-                Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
-                continue;
-            }
-
-            if (node.Evaluate() == NodeState.Success)
-            {
-                successCount++;
-            }
-            else if (node.Evaluate() == NodeState.Failure)
-            {
-                failureCount++;
-            }
-            else if (node.Evaluate() == NodeState.Running)
-            {
-                anyRunning = true;
-            }
+            get => successThreshold;
+            set => successThreshold = value;
         }
 
-        if (successCount >= successThreshold)
-            return NodeState.Success;
-        
-        if (failureCount > childNodeGuidList.Count - successThreshold)
-            return NodeState.Failure;
+        private bool anyRunning;
 
-        return anyRunning ? NodeState.Running : NodeState.Failure;
+        private int successCount;
+        private int failureCount;
+
+
+        public ParallelNode(string guid) : base(guid) { }
+
+        public override NodeState Evaluate()
+        {
+            anyRunning = false;
+
+            successCount = 0;
+            failureCount = 0;
+
+            foreach (string nodeGuid in childNodeGuidList)
+            {
+                var node = tree.FindNode(nodeGuid);
+
+                if (node == null)
+                {
+                    Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
+                    continue;
+                }
+
+                if (node.Evaluate() == NodeState.Success)
+                {
+                    successCount++;
+                }
+                else if (node.Evaluate() == NodeState.Failure)
+                {
+                    failureCount++;
+                }
+                else if (node.Evaluate() == NodeState.Running)
+                {
+                    anyRunning = true;
+                }
+            }
+
+            if (successCount >= successThreshold)
+                return NodeState.Success;
+
+            if (failureCount > childNodeGuidList.Count - successThreshold)
+                return NodeState.Failure;
+
+            return anyRunning ? NodeState.Running : NodeState.Failure;
+        }
     }
 }

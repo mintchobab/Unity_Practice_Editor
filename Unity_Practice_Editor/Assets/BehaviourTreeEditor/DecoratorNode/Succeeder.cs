@@ -1,11 +1,14 @@
-public class Succeeder : DecoratorNode
+namespace Mintchobab
 {
-    public Succeeder(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
+    public class Succeeder : DecoratorNode
     {
-        childNode.Evaluate();
+        public Succeeder(string guid) : base(guid) { }
 
-        return NodeState.Success;
+        public override NodeState Evaluate()
+        {
+            childNode.Evaluate();
+
+            return NodeState.Success;
+        }
     }
 }

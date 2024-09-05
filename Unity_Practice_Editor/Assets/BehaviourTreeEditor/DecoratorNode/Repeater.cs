@@ -1,26 +1,29 @@
-public class Repeater : DecoratorNode
+namespace Mintchobab
 {
-    [NodeField]
-    private int repeatCount;
-
-    public Repeater(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
+    public class Repeater : DecoratorNode
     {
-        for (int i = 0; i < repeatCount; i++)
+        [NodeField]
+        private int repeatCount;
+
+        public Repeater(string guid) : base(guid) { }
+
+        public override NodeState Evaluate()
         {
-            NodeState nodeState = childNode.Evaluate();
+            for (int i = 0; i < repeatCount; i++)
+            {
+                NodeState nodeState = childNode.Evaluate();
 
-            if (nodeState == NodeState.Running)
-            {
-                continue;
+                if (nodeState == NodeState.Running)
+                {
+                    continue;
+                }
+                else if (nodeState == NodeState.Failure)
+                {
+                    return NodeState.Failure;
+                }
             }
-            else if (nodeState == NodeState.Failure)
-            {
-                return NodeState.Failure;
-            }
+
+            return NodeState.Success;
         }
-
-        return NodeState.Success;
     }
 }

@@ -1,21 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class RepeateUntilFailure : DecoratorNode
+namespace Mintchobab
 {
-    public RepeateUntilFailure(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
+    public class RepeateUntilFailure : DecoratorNode
     {
-        while (true)
+        public RepeateUntilFailure(string guid) : base(guid) { }
+
+        public override NodeState Evaluate()
         {
-            NodeState nodeState = childNode.Evaluate();
+            while (true)
+            {
+                NodeState nodeState = childNode.Evaluate();
 
-            if (nodeState == NodeState.Failure)
-                break;
+                if (nodeState == NodeState.Failure)
+                    break;
+            }
+
+            return nodeState;
         }
-
-        return nodeState;
     }
 }

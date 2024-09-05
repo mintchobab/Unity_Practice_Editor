@@ -1,32 +1,35 @@
 using UnityEngine;
 
-public class WaitNode : ActionNode
+namespace Mintchobab
 {
-    private float waitTime;
-
-    [NodeProperty]
-    public float WaitTime
+    public class WaitNode : ActionNode
     {
-        get => waitTime;
-        set => waitTime = value;
-    }
+        private float waitTime;
 
-    private float elapsedTime;
-
-
-    public WaitNode(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
-    {
-        if (elapsedTime < waitTime)
+        [NodeProperty]
+        public float WaitTime
         {
-            elapsedTime += Time.deltaTime;
-            return NodeState.Running;
+            get => waitTime;
+            set => waitTime = value;
         }
-        else
+
+        private float elapsedTime;
+
+
+        public WaitNode(string guid) : base(guid) { }
+
+        public override NodeState Evaluate()
         {
-            elapsedTime = 0f;
-            return NodeState.Success;
-        }        
+            if (elapsedTime < waitTime)
+            {
+                elapsedTime += Time.deltaTime;
+                return NodeState.Running;
+            }
+            else
+            {
+                elapsedTime = 0f;
+                return NodeState.Success;
+            }
+        }
     }
 }

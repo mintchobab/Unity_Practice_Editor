@@ -1,17 +1,20 @@
-public class RepeateUntilSuccess : DecoratorNode
+namespace Mintchobab
 {
-    public RepeateUntilSuccess(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
+    public class RepeateUntilSuccess : DecoratorNode
     {
-        while(true)
+        public RepeateUntilSuccess(string guid) : base(guid) { }
+
+        public override NodeState Evaluate()
         {
-            NodeState nodeState = childNode.Evaluate();
+            while (true)
+            {
+                NodeState nodeState = childNode.Evaluate();
 
-            if (nodeState == NodeState.Success)
-                break;
+                if (nodeState == NodeState.Success)
+                    break;
+            }
+
+            return nodeState;
         }
-
-        return nodeState;
     }
 }

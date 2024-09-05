@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
-public class ActionNode : BehaviourNode
+namespace Mintchobab
 {
-    public ActionNode(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
+    [System.Serializable]
+    public class ActionNode : BehaviourNode
     {
-        return NodeState.Failure;
+        public ActionNode(string guid) : base(guid) { }
+
+        public override NodeState Evaluate()
+        {
+            return NodeState.Failure;
+        }
     }
 }

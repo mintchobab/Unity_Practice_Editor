@@ -1,26 +1,29 @@
 using UnityEngine;
 
-[System.Serializable]
-public class RootNode : BehaviourNode
+namespace Mintchobab
 {
-    public RootNode(string guid) : base(guid) { Debug.LogWarning("bbbbbb"); }
-
-    public override NodeState Evaluate()
+    [System.Serializable]
+    public class RootNode : BehaviourNode
     {
-        foreach (string nodeGuid in childNodeGuidList)
-        {
-            var node = tree.FindNode(nodeGuid);
+        public RootNode(string guid) : base(guid) { Debug.LogWarning("bbbbbb"); }
 
-            if (node == null)
+        public override NodeState Evaluate()
+        {
+            foreach (string nodeGuid in childNodeGuidList)
             {
-                Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
-                continue;
+                var node = tree.FindNode(nodeGuid);
+
+                if (node == null)
+                {
+                    Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
+                    continue;
+                }
+
+                // TODO : 테스트
+                node.Evaluate();
             }
 
-            // TODO : 테스트
-            node.Evaluate();
+            return NodeState.Success;
         }
-
-        return NodeState.Success;
     }
 }

@@ -1,24 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
-public class DecoratorNode : BehaviourNode
+namespace Mintchobab
 {
-    public DecoratorNode(string guid) : base(guid) { }
-
-    protected BehaviourNode childNode;
-
-    public override void Init(BehaviourTree tree)
+    [System.Serializable]
+    public class DecoratorNode : BehaviourNode
     {
-        base.Init(tree);
+        public DecoratorNode(string guid) : base(guid) { }
 
-        if (ChildNodeGuidList.Count == 1)
-            childNode = tree.FindNode(ChildNodeGuidList[0]);
-    }
+        protected BehaviourNode childNode;
 
-    public override NodeState Evaluate()
-    {
-        return NodeState.Failure;
+        public override void Init(BehaviourTree tree)
+        {
+            base.Init(tree);
+
+            if (ChildNodeGuidList.Count == 1)
+                childNode = tree.FindNode(ChildNodeGuidList[0]);
+        }
+
+        public override NodeState Evaluate()
+        {
+            return NodeState.Failure;
+        }
     }
 }

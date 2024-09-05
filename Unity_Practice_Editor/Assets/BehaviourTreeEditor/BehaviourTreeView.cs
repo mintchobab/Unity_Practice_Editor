@@ -6,221 +6,202 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
 
-public class BehaviourTreeView : GraphView
+namespace Mintchobab 
 {
-    private BehaviourTree myBehaviourTree;
-    private List<BehaviourNodeView> nodeViewList = new List<BehaviourNodeView>();
-
-
-    public BehaviourTreeView(BehaviourTree tree)
+    public class BehaviourTreeView : GraphView
     {
-        // GraphView의 기본 설정
-        this.SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-        this.AddManipulator(new ContentDragger());
-        this.AddManipulator(new SelectionDragger());
-        this.AddManipulator(new RectangleSelector());
+        private BehaviourTree myBehaviourTree;
+        private List<BehaviourNodeView> nodeViewList = new List<BehaviourNodeView>();
 
-        // 배경 그리드 추가
-        styleSheets.Add(Resources.Load<StyleSheet>("Background"));
-        GridBackground gridBackground = new GridBackground();
-        Insert(0, gridBackground);
-        gridBackground.StretchToParentSize();
 
-        myBehaviourTree = tree;
-        nodeViewList.Clear();
-
-        foreach (BehaviourNode node in myBehaviourTree.NodeList)
+        public BehaviourTreeView(BehaviourTree tree)
         {
-            CreateNodeView(node);
-        }
+            // GraphView의 기본 설정
+            this.SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+            this.AddManipulator(new ContentDragger());
+            this.AddManipulator(new SelectionDragger());
+            this.AddManipulator(new RectangleSelector());
 
-        foreach (BehaviourNode node in myBehaviourTree.NodeList)
-        {
-            CreateEdge(node);
-        }
+            // 배경 그리드 추가
+            styleSheets.Add(Resources.Load<StyleSheet>("Background"));
+            GridBackground gridBackground = new GridBackground();
+            Insert(0, gridBackground);
+            gridBackground.StretchToParentSize();
 
-        graphViewChanged -= OnGraphViewChanged;
-        graphViewChanged += OnGraphViewChanged;
-    }
+            myBehaviourTree = tree;
+            nodeViewList.Clear();
 
-
-    private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
-    {
-        if (graphViewChange.movedElements != null)
-        {
-            List<string> parentNodeGuidList = new List<string>();
-
-            foreach (GraphElement element in graphViewChange.movedElements)
+            foreach (BehaviourNode node in myBehaviourTree.NodeList)
             {
-                BehaviourNodeView nodeView = element as BehaviourNodeView;
-
-                Rect rect = nodeView.GetPosition();
-                Vector2 newPosition = rect.position;
-
-                nodeView.SetPosition(rect);
-
-                BehaviourNode node = myBehaviourTree.FindNode(nodeView.guid);
-                node.PosX = newPosition.x;
-                node.PosY = newPosition.y;
-
-                if (!string.IsNullOrEmpty(node.ParentNodeGuid) && !parentNodeGuidList.Contains(node.ParentNodeGuid))
-                    parentNodeGuidList.Add(node.ParentNodeGuid);
+                CreateNodeView(node);
             }
 
-            // 정렬 중복하지 않기 위해 사용
-            foreach (string parentGuid in parentNodeGuidList)
+            foreach (BehaviourNode node in myBehaviourTree.NodeList)
             {
-                BehaviourNode parentNode = myBehaviourTree.FindNode(parentGuid);
-                parentNode.SortChildNodeByPositionY(myBehaviourTree);
+                CreateEdge(node);
             }
+
+            graphViewChanged -= OnGraphViewChanged;
+            graphViewChanged += OnGraphViewChanged;
         }
-        else if (graphViewChange.edgesToCreate != null)
+
+
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            if (graphViewChange.edgesToCreate.Count > 1)
+            if (graphViewChange.movedElements != null)
             {
-                Debug.LogWarning("2개 이상인 상황11");
-            }
+                List<string> parentNodeGuidList = new List<string>();
 
-            foreach(Edge edge in graphViewChange.edgesToCreate)
-            {
-                Debug.LogWarning("여기 확인");
-
-                // 인풋 노드의 부모가 아웃풋이 되어야함
-                BehaviourNodeView inputNode = edge.input.node as BehaviourNodeView;
-                BehaviourNodeView outputNode = edge.output.node as BehaviourNodeView;
-
-                inputNode.Node.ParentNodeGuid = outputNode.guid;
-                outputNode.Node.AddChildNode(inputNode.guid);
-                outputNode.Node.SortChildNodeByPositionY(myBehaviourTree);
-            }
-        }
-        // 엣지가 지워지는것도 같이 감지됨
-        else if (graphViewChange.elementsToRemove != null)
-        {
-            //if (graphViewChange.elementsToRemove.Count > 1)
-            //{
-            //    Debug.LogWarning("2개 이상인 상황33");
-            //}
-
-            foreach (GraphElement element in graphViewChange.elementsToRemove)
-            {
-                if (element is Edge)
+                foreach (GraphElement element in graphViewChange.movedElements)
                 {
-                    Edge edge = element as Edge;
+                    BehaviourNodeView nodeView = element as BehaviourNodeView;
 
+                    Rect rect = nodeView.GetPosition();
+                    Vector2 newPosition = rect.position;
+
+                    nodeView.SetPosition(rect);
+
+                    BehaviourNode node = myBehaviourTree.FindNode(nodeView.guid);
+                    node.PosX = newPosition.x;
+                    node.PosY = newPosition.y;
+
+                    if (!string.IsNullOrEmpty(node.ParentNodeGuid) && !parentNodeGuidList.Contains(node.ParentNodeGuid))
+                        parentNodeGuidList.Add(node.ParentNodeGuid);
+                }
+
+                // 정렬 중복하지 않기 위해 사용
+                foreach (string parentGuid in parentNodeGuidList)
+                {
+                    BehaviourNode parentNode = myBehaviourTree.FindNode(parentGuid);
+                    parentNode.SortChildNodeByPositionY(myBehaviourTree);
+                }
+            }
+            else if (graphViewChange.edgesToCreate != null)
+            {
+                foreach (Edge edge in graphViewChange.edgesToCreate)
+                {
                     BehaviourNodeView inputNode = edge.input.node as BehaviourNodeView;
                     BehaviourNodeView outputNode = edge.output.node as BehaviourNodeView;
 
-                    inputNode.Node.ParentNodeGuid = null;
-                    outputNode.Node.RemoveChildNode(inputNode.guid);
+                    inputNode.Node.ParentNodeGuid = outputNode.guid;
+                    outputNode.Node.AddChildNode(inputNode.guid);
+                    outputNode.Node.SortChildNodeByPositionY(myBehaviourTree);
                 }
-                else if (element is BehaviourNodeView)
+            }
+            // NOTE : 엣지가 지워지는것도 같이 감지됨
+            else if (graphViewChange.elementsToRemove != null)
+            {
+                foreach (GraphElement element in graphViewChange.elementsToRemove)
                 {
-                    BehaviourNodeView nodeView = element as BehaviourNodeView;
-                    myBehaviourTree.RemoveNode(nodeView.Node);
+                    if (element is Edge)
+                    {
+                        Edge edge = element as Edge;
+
+                        BehaviourNodeView inputNode = edge.input.node as BehaviourNodeView;
+                        BehaviourNodeView outputNode = edge.output.node as BehaviourNodeView;
+
+                        inputNode.Node.ParentNodeGuid = null;
+                        outputNode.Node.RemoveChildNode(inputNode.guid);
+                    }
+                    else if (element is BehaviourNodeView)
+                    {
+                        BehaviourNodeView nodeView = element as BehaviourNodeView;
+                        myBehaviourTree.RemoveNode(nodeView.Node);
+                    }
+                }
+            }
+
+            EditorUtility.SetDirty(myBehaviourTree);
+
+            return graphViewChange;
+        }
+
+
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            base.BuildContextualMenu(evt);
+
+            // 마우스 우 클릭 이벤트
+            BuildContextualMenuInternal<CompositeNode>(0, "Create Node/Composite Node");
+            BuildContextualMenuInternal<DecoratorNode>(1, "Create Node/Decorator Node");
+            BuildContextualMenuInternal<ActionNode>(2, "Create Node/Action Node");
+
+            void BuildContextualMenuInternal<TNode>(int actionIndex, string actionName) where TNode : BehaviourNode
+            {
+                var nodeTypeList = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(assembly => assembly.GetTypes())
+                    .Where(type => type.IsClass && type.IsSubclassOf(typeof(TNode)))
+                    .ToList();
+
+                if (nodeTypeList.Count == 0)
+                    return;
+
+                foreach (Type nodeType in nodeTypeList)
+                {
+                    evt.menu.InsertAction(actionIndex, $"{actionName}/{nodeType.Name}", (action) =>
+                    {
+                        BehaviourNode node = myBehaviourTree.CreateNode(nodeType);
+                        node.PosX = action.eventInfo.mousePosition.x;
+                        node.PosY = action.eventInfo.mousePosition.y;
+
+                        CreateNodeView(node);
+                    });
                 }
             }
         }
 
-        EditorUtility.SetDirty(myBehaviourTree);
 
-        return graphViewChange;
-    }
-
-        
-    public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-    {
-        base.BuildContextualMenu(evt);
-
-        // 마우스 우 클릭 이벤트
-        BuildContextualMenuInternal<CompositeNode>(0, "Create Node/Composite Node");
-        BuildContextualMenuInternal<DecoratorNode>(1, "Create Node/Decorator Node");
-        BuildContextualMenuInternal<ActionNode>(2, "Create Node/Action Node");
-
-        void BuildContextualMenuInternal<TNode>(int actionIndex, string actionName) where TNode : BehaviourNode
+        private void CreateNodeView(BehaviourNode node)
         {
-            var nodeTypeList = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsClass && type.IsSubclassOf(typeof(TNode)))
-                .ToList();
+            BehaviourNodeView nodeView = new BehaviourNodeView(myBehaviourTree, node);
+            nodeView.guid = node.Guid;
 
-            if (nodeTypeList.Count == 0)
+            nodeView.SetPosition(new Rect(new Vector2(node.PosX, node.PosY), Vector2.zero));
+            nodeView.RegisterCallback<MouseDownEvent>(evt => OnSelectedNode(evt, nodeView));
+
+            if (node is RootNode)
+                nodeView.capabilities &= ~Capabilities.Deletable;
+
+            nodeViewList.Add(nodeView);
+
+            AddElement(nodeView);
+        }
+
+
+        private void CreateEdge(BehaviourNode node)
+        {
+            if (node.ChildNodeGuidList.Count == 0)
                 return;
 
-            foreach (Type nodeType in nodeTypeList)
+            foreach (string childGuid in node.ChildNodeGuidList)
             {
-                evt.menu.InsertAction(actionIndex, $"{actionName}/{nodeType.Name}", (action) =>
-                {
-                    BehaviourNode node = myBehaviourTree.CreateNode(nodeType);
-                    node.PosX = action.eventInfo.mousePosition.x;
-                    node.PosY = action.eventInfo.mousePosition.y;
+                BehaviourNodeView outputNodeView = nodeViewList.Find(x => x.guid.Equals(node.Guid));
+                BehaviourNodeView inputNodeView = nodeViewList.Find(x => x.guid.Equals(childGuid));
 
-                    CreateNodeView(node);
-                });
+                Edge edge = new Edge();
+                edge.output = outputNodeView.outputPort;
+                edge.input = inputNodeView.inputPort;
+
+                edge.output.Connect(edge);
+                edge.input.Connect(edge);
+
+                AddElement(edge);
             }
         }
-    }
 
 
-    private void CreateNodeView(BehaviourNode node)
-    {
-        BehaviourNodeView nodeView = new BehaviourNodeView(myBehaviourTree, node);
-        nodeView.guid = node.Guid;
-
-        nodeView.SetPosition(new Rect(new Vector2(node.PosX, node.PosY), Vector2.zero));
-        nodeView.RegisterCallback<MouseDownEvent>(evt => OnSelectedNode(evt, nodeView));
-
-        if (node is RootNode)
-            nodeView.capabilities &= ~Capabilities.Deletable;
-
-        nodeViewList.Add(nodeView);
-
-        AddElement(nodeView);
-    }
-
-
-    private void CreateEdge(BehaviourNode node)
-    {
-        if (node.ChildNodeGuidList.Count == 0)
-            return;
-
-        foreach (string childGuid in node.ChildNodeGuidList)
+        private void OnSelectedNode(MouseDownEvent evt, BehaviourNodeView nodeView)
         {
-            //input, output port를 알아야함....
 
-            BehaviourNodeView outputNodeView = nodeViewList.Find(x => x.guid.Equals(node.Guid));
-            BehaviourNodeView inputNodeView = nodeViewList.Find(x => x.guid.Equals(childGuid));
-
-            Edge edge = new Edge();
-            edge.output = outputNodeView.outputPort;
-            edge.input = inputNodeView.inputPort;
-
-            edge.output.Connect(edge);
-            edge.input.Connect(edge);
-
-            AddElement(edge);
         }
-    }
 
 
-    private void OnSelectedNode(MouseDownEvent evt, BehaviourNodeView nodeView)
-    {
-        //if (evt.clickCount == 1)
-        //{
-        //    BehaviourTreeEditorWindow.UpdateLeftPanel(nodeView);
-        //}
-        //else
-        //{
-        //    BehaviourTreeEditorWindow.ClearLeftPanel();
-        //}
-    }
-
-
-    public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-    {
-        return ports.ToList()!.Where(endPort =>
-                      endPort.direction != startPort.direction &&
-                      endPort.node != startPort.node &&
-                      endPort.portType == startPort.portType).ToList();
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        {
+            return ports.ToList()!.Where(endPort =>
+                          endPort.direction != startPort.direction &&
+                          endPort.node != startPort.node &&
+                          endPort.portType == startPort.portType).ToList();
+        }
     }
 }

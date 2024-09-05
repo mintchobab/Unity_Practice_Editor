@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
-public class CompositeNode : BehaviourNode
+namespace Mintchobab
 {
-    public CompositeNode(string guid) : base(guid) { }
-
-    public override NodeState Evaluate()
+    [System.Serializable]
+    public class CompositeNode : BehaviourNode
     {
-        return NodeState.Failure;
+        public CompositeNode(string guid) : base(guid) { }
+
+        public override NodeState Evaluate()
+        {
+            return NodeState.Failure;
+        }
     }
 }

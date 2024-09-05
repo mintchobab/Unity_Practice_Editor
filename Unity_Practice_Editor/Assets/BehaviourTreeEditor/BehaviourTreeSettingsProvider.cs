@@ -2,34 +2,37 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class BehaviourTreeSettingsProvider : SettingsProvider
+namespace Mintchobab
 {
-    private static BehaviourTreeSettings settings;
-
-    public BehaviourTreeSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords)
+    public class BehaviourTreeSettingsProvider : SettingsProvider
     {
-        settings = BehaviourTreeSettings.GetOrCreateSettings();
-    }
+        private static BehaviourTreeSettings settings;
 
-    public override void OnGUI(string searchContext)
-    {
-        base.OnGUI(searchContext);
-
-        GUILayout.Label("Node Texture", EditorStyles.boldLabel);
-
-        settings.SequenceTexture = EditorGUILayout.ObjectField("Sequence Node Texture", settings.SequenceTexture, typeof(Texture2D), false) as Texture2D;
-        settings.SelectorTexture = EditorGUILayout.ObjectField("Selector Node Texture", settings.SelectorTexture, typeof(Texture2D), false) as Texture2D;
-        settings.WaitTexture = EditorGUILayout.ObjectField("Wait Node Texture", settings.WaitTexture, typeof(Texture2D), false) as Texture2D;
-
-        if (GUI.changed)
+        public BehaviourTreeSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords)
         {
-            settings.Save();
+            settings = BehaviourTreeSettings.GetOrCreateSettings();
         }
-    }
 
-    [SettingsProvider]
-    public static SettingsProvider CreateBehaviourTreeSettingsProvider()
-    {
-        return new BehaviourTreeSettingsProvider("Project/Behaviour Tree Settings", SettingsScope.Project);
+        public override void OnGUI(string searchContext)
+        {
+            base.OnGUI(searchContext);
+
+            GUILayout.Label("Node Texture", EditorStyles.boldLabel);
+
+            settings.SequenceTexture = EditorGUILayout.ObjectField("Sequence Node Texture", settings.SequenceTexture, typeof(Texture2D), false) as Texture2D;
+            settings.SelectorTexture = EditorGUILayout.ObjectField("Selector Node Texture", settings.SelectorTexture, typeof(Texture2D), false) as Texture2D;
+            settings.WaitTexture = EditorGUILayout.ObjectField("Wait Node Texture", settings.WaitTexture, typeof(Texture2D), false) as Texture2D;
+
+            if (GUI.changed)
+            {
+                settings.Save();
+            }
+        }
+
+        [SettingsProvider]
+        public static SettingsProvider CreateBehaviourTreeSettingsProvider()
+        {
+            return new BehaviourTreeSettingsProvider("Project/Behaviour Tree Settings", SettingsScope.Project);
+        }
     }
 }

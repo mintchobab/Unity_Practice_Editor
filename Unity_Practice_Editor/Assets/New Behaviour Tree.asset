@@ -13,52 +13,10 @@ MonoBehaviour:
   m_Name: New Behaviour Tree
   m_EditorClassIdentifier: 
   NodeList:
-  - rid: 3747930185622093824
-  - rid: 1860184661222752260
-  - rid: 1860184661222752261
-  - rid: 1860184661222752262
-  - rid: 1860184673890598912
+  - rid: -2
   RootNodeGuid: 5a74de71-54f4-420a-a607-2422b961171e
   references:
     version: 2
     RefIds:
-    - rid: 1860184661222752260
-      type: {class: SequenceNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: 9373aa25-486c-41ff-877e-0f5412832af5
-        parentNodeGuid: 
-        childNodeGuidList: []
-        posX: 792
-        posY: 322
-    - rid: 1860184661222752261
-      type: {class: SelectorNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: ca680b2a-8b1c-40d5-905d-53ae83d6d25e
-        parentNodeGuid: 
-        childNodeGuidList: []
-        posX: 526
-        posY: 319
-    - rid: 1860184661222752262
-      type: {class: WaitNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: b38bcb4a-915d-47db-980c-32d93b997a30
-        parentNodeGuid: 
-        childNodeGuidList: []
-        posX: 1042
-        posY: 348
-    - rid: 1860184673890598912
-      type: {class: InverterNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: 6d6867ec-0c6e-4976-9ecb-244fc2ccfe9a
-        parentNodeGuid: 
-        childNodeGuidList: []
-        posX: 426
-        posY: 583
-    - rid: 3747930185622093824
-      type: {class: RootNode, ns: , asm: Assembly-CSharp}
-      data:
-        guid: 5a74de71-54f4-420a-a607-2422b961171e
-        parentNodeGuid: 
-        childNodeGuidList: []
-        posX: 262
-        posY: 319
+    - rid: -2
+      type: {class: , ns: , asm: }
