@@ -17,10 +17,13 @@ MonoBehaviour:
   - rid: 9145171803588788225
   - rid: 9145171803588788226
   - rid: 9145171908568285184
+  - rid: -2
   RootNodeGuid: 1cbf611f-a6b4-4b1e-b636-08d85064f649
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 9145171803588788224
       type: {class: RootNode, ns: Mintchobab, asm: Assembly-CSharp}
       data:

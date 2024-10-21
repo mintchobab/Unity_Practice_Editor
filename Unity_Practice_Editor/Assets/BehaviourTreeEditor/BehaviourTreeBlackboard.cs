@@ -22,14 +22,14 @@ namespace Mintchobab
         }
 
 
-        public void SetBBString(string key, string value) => SetData(stringDic, key, value);
-        public void SetBBInt(string key, int value) => SetData(intDic, key, value);
-        public void SetBBFloat(string key, float value) => SetData(floatDic, key, value);
-        public void SetBBUnityObject<T>(string key, T value) where T : Object => SetData(objectDic, key, value);
+        public void SetString(string key, string value) => SetData(stringDic, key, value);
+        public void SetInt(string key, int value) => SetData(intDic, key, value);
+        public void SetFloat(string key, float value) => SetData(floatDic, key, value);
+        public void SetUnityObject<T>(string key, T value) where T : Object => SetData(objectDic, key, value);
 
-        public string GetBBString(string key) => GetData(stringDic, key, null);
-        public int GetBBInt(string key) => GetData(intDic, key, default);
-        public float GetBBFloat(string key) => GetData(floatDic, key, default);
+        public string GetString(string key) => GetData(stringDic, key, null);
+        public int GetInt(string key) => GetData(intDic, key, default);
+        public float GetFloat(string key) => GetData(floatDic, key, default);
 
 
         private void SetData<T>(Dictionary<string, T> dictionary, string key, T value)
@@ -46,7 +46,7 @@ namespace Mintchobab
         }
 
 
-        public T GetBBUnityObject<T>(string key) where T : Object
+        public T GetUnityObject<T>(string key) where T : Object
         {
             if (objectDic.TryGetValue(key, out Object component))
                 return (T)component;

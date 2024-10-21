@@ -10,7 +10,7 @@ namespace Mintchobab
         {
             AddBlackboardDatas();
 
-            BehaviourTree.Init();
+            //BehaviourTree.Init();
         }
 
         private void Update()

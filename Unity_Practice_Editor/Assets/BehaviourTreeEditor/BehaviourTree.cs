@@ -61,9 +61,9 @@ namespace Mintchobab
         }
 
 
-        public void Init()
+        public void Init(BehaviourTreeBlackboard blackboard)
         {
-            this.Blackboard = new BehaviourTreeBlackboard();
+            this.Blackboard = blackboard;
 
             if (string.IsNullOrEmpty(RootNodeGuid))
                 Debug.LogError($"{nameof(BehaviourTree)} : Root Node Guid is Empty");

@@ -125,6 +125,7 @@ namespace Mintchobab
             BuildContextualMenuInternal<CompositeNode>(0, "Create Node/Composite Node");
             BuildContextualMenuInternal<DecoratorNode>(1, "Create Node/Decorator Node");
             BuildContextualMenuInternal<ActionNode>(2, "Create Node/Action Node");
+            BuildContextualMenuInternal<ConditionNode>(3, "Create Node/Condition Node");
 
             void BuildContextualMenuInternal<TNode>(int actionIndex, string actionName) where TNode : BehaviourNode
             {

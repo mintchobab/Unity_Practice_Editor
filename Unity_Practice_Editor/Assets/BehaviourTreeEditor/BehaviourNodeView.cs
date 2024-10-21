@@ -60,6 +60,12 @@ namespace Mintchobab
 
                 inputPort = AddInputPort(Port.Capacity.Single);
             }
+            else if (Node is ConditionNode)
+            {
+                inputColor = new Color(142f / 255f, 44f / 255f, 199f / 255f, 1f);
+
+                inputPort = AddInputPort(Port.Capacity.Single);
+            }
             else
             {
                 Debug.LogError($"{nameof(BehaviourNodeView)} : Node Error {typeof(Node)}");
@@ -81,7 +87,6 @@ namespace Mintchobab
             extensionContainer.style.overflow = Overflow.Visible;
 
             // NOTE : 순서 주의하기
-
             AddNodeImage();
 
             AddFields();

@@ -101,6 +101,8 @@ namespace Mintchobab
             this.tree = tree;
             NodeState = NodeStates.None;
 
+            childNodes = new List<BehaviourNode>();
+
             foreach (string nodeGuid in childNodeGuidList)
             {
                 BehaviourNode node = tree.FindNode(nodeGuid);
