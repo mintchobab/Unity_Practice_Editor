@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace Mintchobab
 {
-    public enum NodeState
+    public enum NodeStates
     {
+        None,
         Running,
         Success,
         Failure
@@ -65,8 +66,11 @@ namespace Mintchobab
         }
 
 
-        protected NodeState nodeState;
         protected BehaviourTree tree;
+
+        protected List<BehaviourNode> childNodes;
+
+        public NodeStates NodeState { get; set; } = NodeStates.None;
 
 
         public void AddChildNode(string inGuid)
@@ -95,8 +99,27 @@ namespace Mintchobab
         public virtual void Init(BehaviourTree tree)
         {
             this.tree = tree;
+            NodeState = NodeStates.None;
+
+            foreach (string nodeGuid in childNodeGuidList)
+            {
+                BehaviourNode node = tree.FindNode(nodeGuid);
+
+                if (node == null)
+                {
+                    Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
+                    continue;
+                }
+
+                childNodes.Add(node);
+            }
         }
 
-        public abstract NodeState Evaluate();
+        public virtual void Refresh() 
+        {
+            NodeState = NodeStates.None;
+        }
+
+        public abstract NodeStates Evaluate();               
     }
 }

@@ -1,47 +1,43 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Mintchobab
 {
     [System.Serializable]
     public class SequenceNode : CompositeNode
     {
+        private List<ActionNode> childActionNodes;
+
         public SequenceNode(string guid) : base(guid)
         {
         }
 
-        public override NodeState Evaluate()
+        public override void Init(BehaviourTree tree)
         {
-            foreach (string nodeGuid in childNodeGuidList)
+            base.Init(tree);
+
+            childActionNodes = childNodes.ConvertAll(x => x as ActionNode);
+        }
+
+        public override NodeStates Evaluate()
+        {
+            foreach (BehaviourNode node in childNodes)
             {
-                var node = tree.FindNode(nodeGuid);
-
-                if (node == null)
-                {
-                    Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
-                    continue;
-                }
-
                 switch (node.Evaluate())
                 {
-                    case NodeState.Failure:
-                        nodeState = NodeState.Failure;
-                        return nodeState;
+                    case NodeStates.Running:
+                        return NodeState = NodeStates.Running;
 
-                    case NodeState.Success:
-                        continue;
-
-                    case NodeState.Running:
-                        nodeState = NodeState.Running;
-                        return nodeState;
-
-                    default:
-                        nodeState = NodeState.Success;
-                        return nodeState;
+                    case NodeStates.Failure:
+                        return NodeState = NodeStates.Failure;
                 }
             }
 
-            nodeState = NodeState.Success;
-            return nodeState;
+            foreach (ActionNode actionNode in childActionNodes)
+            {
+                actionNode.Refresh();
+            }
+
+            return NodeState = NodeStates.Success;
         }
     }
 }

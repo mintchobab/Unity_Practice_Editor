@@ -22,44 +22,36 @@ namespace Mintchobab
 
         public ParallelNode(string guid) : base(guid) { }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
             anyRunning = false;
 
             successCount = 0;
             failureCount = 0;
 
-            foreach (string nodeGuid in childNodeGuidList)
+            foreach (BehaviourNode node in childNodes)
             {
-                var node = tree.FindNode(nodeGuid);
-
-                if (node == null)
-                {
-                    Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
-                    continue;
-                }
-
-                if (node.Evaluate() == NodeState.Success)
+                if (node.Evaluate() == NodeStates.Success)
                 {
                     successCount++;
                 }
-                else if (node.Evaluate() == NodeState.Failure)
+                else if (node.Evaluate() == NodeStates.Failure)
                 {
                     failureCount++;
                 }
-                else if (node.Evaluate() == NodeState.Running)
+                else if (node.Evaluate() == NodeStates.Running)
                 {
                     anyRunning = true;
                 }
             }
 
             if (successCount >= successThreshold)
-                return NodeState.Success;
+                return NodeState = NodeStates.Success;
 
             if (failureCount > childNodeGuidList.Count - successThreshold)
-                return NodeState.Failure;
+                return NodeState = NodeStates.Failure;
 
-            return anyRunning ? NodeState.Running : NodeState.Failure;
+            return anyRunning ? NodeState = NodeStates.Running : NodeState = NodeStates.Failure;
         }
     }
 }

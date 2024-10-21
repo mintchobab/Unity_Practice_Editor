@@ -1,23 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mintchobab
 {
-    public class WaitNode : ActionNode
+    public class TestActionNode : ActionNode
     {
-        private float waitTime;
+        public TestActionNode(string guid) : base(guid) { }
 
-        [NodeProperty]
-        public float WaitTime
-        {
-            get => waitTime;
-            set => waitTime = value;
-        }
-
-        private float elapsedTime;
-
-
-        public WaitNode(string guid) : base(guid) { }
-
+        private float elapsedTime = 0f;
+        private float maxTime = 3f;
 
         public override void Init(BehaviourTree tree)
         {
@@ -25,17 +17,15 @@ namespace Mintchobab
             elapsedTime = 0f;
         }
 
-
         public override void Refresh()
         {
             base.Refresh();
             elapsedTime = 0f;
         }
 
-
         public override NodeStates Evaluate()
         {
-            if (elapsedTime < waitTime)
+            if (elapsedTime < maxTime)
             {
                 elapsedTime += Time.deltaTime;
                 return NodeStates.Running;

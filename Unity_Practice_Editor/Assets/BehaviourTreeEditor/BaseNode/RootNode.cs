@@ -7,23 +7,14 @@ namespace Mintchobab
     {
         public RootNode(string guid) : base(guid) { Debug.LogWarning("bbbbbb"); }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
-            foreach (string nodeGuid in childNodeGuidList)
+            foreach (BehaviourNode node in childNodes)
             {
-                var node = tree.FindNode(nodeGuid);
-
-                if (node == null)
-                {
-                    Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
-                    continue;
-                }
-
-                // TODO : Å×½ºÆ®
                 node.Evaluate();
             }
 
-            return NodeState.Success;
+            return NodeState = NodeStates.Success;
         }
     }
 }

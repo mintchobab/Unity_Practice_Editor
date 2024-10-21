@@ -16,7 +16,6 @@ namespace Mintchobab
         private BehaviourNode rootNode;
 
         public BehaviourTreeBlackboard Blackboard { get; private set; }
-        public BehaviourTreeContext Context { get; private set; }
 
 
         private void OnEnable()
@@ -62,10 +61,9 @@ namespace Mintchobab
         }
 
 
-        public void Init(BehaviourTreeContext context)
+        public void Init()
         {
             this.Blackboard = new BehaviourTreeBlackboard();
-            this.Context = context;
 
             if (string.IsNullOrEmpty(RootNodeGuid))
                 Debug.LogError($"{nameof(BehaviourTree)} : Root Node Guid is Empty");

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Mintchobab
 {
     [System.Serializable]
@@ -9,38 +7,24 @@ namespace Mintchobab
         {
         }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
-            foreach (string nodeGuid in childNodeGuidList)
+            foreach (BehaviourNode node in childNodes)
             {
-                var node = tree.FindNode(nodeGuid);
-
-                if (node == null)
-                {
-                    Debug.LogError($"{nameof(SelectorNode)} : Child Node Not Found");
-                    continue;
-                }
-
                 switch (node.Evaluate())
                 {
-                    case NodeState.Failure:
+                    case NodeStates.Failure:
                         continue;
 
-                    case NodeState.Success:
-                        nodeState = NodeState.Success;
-                        return nodeState;
+                    case NodeStates.Success:
+                        return NodeState = NodeStates.Success;
 
-                    case NodeState.Running:
-                        nodeState = NodeState.Running;
-                        return nodeState;
-
-                    default:
-                        continue;
+                    case NodeStates.Running:
+                        return NodeState = NodeStates.Running;
                 }
             }
 
-            nodeState = NodeState.Failure;
-            return nodeState;
+            return NodeState = NodeStates.Failure;
         }
     }
 }

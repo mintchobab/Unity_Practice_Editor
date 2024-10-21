@@ -4,16 +4,16 @@ namespace Mintchobab
     {
         public InverterNode(string guid) : base(guid) { }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
-            NodeState childState = childNode.Evaluate();
+            NodeStates childState = childNode.Evaluate();
 
-            if (childState == NodeState.Success)
-                return NodeState.Failure;
-            else if (childState == NodeState.Failure)
-                return NodeState.Success;
+            if (childState == NodeStates.Success)
+                return NodeState = NodeStates.Failure;
+            else if (childState == NodeStates.Failure)
+                return NodeState = NodeStates.Success;
 
-            return NodeState.Running;
+            return NodeState = NodeStates.Running;
         }
     }
 }

@@ -8,13 +8,19 @@ namespace Mintchobab
 
         private void Awake()
         {
-            BehaviourTreeContext context = new BehaviourTreeContext(gameObject);
-            BehaviourTree.Init(context);
+            AddBlackboardDatas();
+
+            BehaviourTree.Init();
         }
 
         private void Update()
         {
             BehaviourTree.Evaluate();
+        }
+
+        private void AddBlackboardDatas()
+        {
+            
         }
     }
 }

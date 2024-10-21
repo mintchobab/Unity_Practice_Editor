@@ -5,9 +5,9 @@ namespace Mintchobab
     {
         public ActionNode(string guid) : base(guid) { }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
-            return NodeState.Failure;
+            return NodeState = NodeStates.Failure;
         }
     }
 }

@@ -7,23 +7,17 @@ namespace Mintchobab
 
         public Repeater(string guid) : base(guid) { }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
             for (int i = 0; i < repeatCount; i++)
             {
-                NodeState nodeState = childNode.Evaluate();
+                NodeState = childNode.Evaluate();
 
-                if (nodeState == NodeState.Running)
-                {
-                    continue;
-                }
-                else if (nodeState == NodeState.Failure)
-                {
-                    return NodeState.Failure;
-                }
+                if (NodeState == NodeStates.Failure)
+                    return NodeState;
             }
 
-            return NodeState.Success;
+            return NodeStates.Success;
         }
     }
 }

@@ -4,17 +4,17 @@ namespace Mintchobab
     {
         public RepeateUntilFailure(string guid) : base(guid) { }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
             while (true)
             {
-                NodeState nodeState = childNode.Evaluate();
+                NodeState = childNode.Evaluate();
 
-                if (nodeState == NodeState.Failure)
+                if (NodeState == NodeStates.Failure)
                     break;
             }
 
-            return nodeState;
+            return NodeState;
         }
     }
 }

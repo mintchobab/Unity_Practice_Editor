@@ -4,11 +4,11 @@ namespace Mintchobab
     {
         public Succeeder(string guid) : base(guid) { }
 
-        public override NodeState Evaluate()
+        public override NodeStates Evaluate()
         {
             childNode.Evaluate();
 
-            return NodeState.Success;
+            return NodeState = NodeStates.Success;
         }
     }
 }
