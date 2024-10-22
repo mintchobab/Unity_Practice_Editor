@@ -1,11 +1,9 @@
-using UnityEngine;
-
 namespace Mintchobab
 {
     [System.Serializable]
     public class RootNode : BehaviourNode
     {
-        public RootNode(string guid) : base(guid) { Debug.LogWarning("bbbbbb"); }
+        public RootNode(string guid) : base(guid) { }
 
         public override NodeStates Evaluate()
         {

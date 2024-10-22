@@ -1,22 +1,9 @@
-using System.Collections.Generic;
-
 namespace Mintchobab
 {
     [System.Serializable]
     public class SequenceNode : CompositeNode
     {
-        private List<ActionNode> childActionNodes;
-
-        public SequenceNode(string guid) : base(guid)
-        {
-        }
-
-        public override void Init(BehaviourTree tree)
-        {
-            base.Init(tree);
-
-            childActionNodes = childNodes.ConvertAll(x => x as ActionNode);
-        }
+        public SequenceNode(string guid) : base(guid) { }
 
         public override NodeStates Evaluate()
         {
@@ -32,9 +19,12 @@ namespace Mintchobab
                 }
             }
 
-            foreach (ActionNode actionNode in childActionNodes)
+            foreach (BehaviourNode node in childNodes)
             {
-                actionNode.Refresh();
+                if (node is CompositeNode)
+                    continue;
+
+                node.Refresh();
             }
 
             return NodeState = NodeStates.Success;

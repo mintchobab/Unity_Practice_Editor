@@ -6,13 +6,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
 
-namespace Mintchobab 
+namespace Mintchobab
 {
     public class BehaviourTreeView : GraphView
     {
         private BehaviourTree myBehaviourTree;
         private List<BehaviourNodeView> nodeViewList = new List<BehaviourNodeView>();
-
 
         public BehaviourTreeView(BehaviourTree tree)
         {
@@ -154,6 +153,12 @@ namespace Mintchobab
 
         private void CreateNodeView(BehaviourNode node)
         {
+            if (node == null)
+            {
+                Debug.LogError($"{nameof(BehaviourTreeView)} : Node is Null");
+                return;
+            }
+
             BehaviourNodeView nodeView = new BehaviourNodeView(myBehaviourTree, node);
             nodeView.guid = node.Guid;
 
@@ -171,6 +176,12 @@ namespace Mintchobab
 
         private void CreateEdge(BehaviourNode node)
         {
+            if (node == null)
+            {
+                Debug.LogError($"{nameof(BehaviourTreeView)} : Node is Null");
+                return;
+            }
+
             if (node.ChildNodeGuidList.Count == 0)
                 return;
 

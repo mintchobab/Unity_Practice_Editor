@@ -26,6 +26,12 @@ namespace Mintchobab
             Node = inNode;
             tree = inTree;
 
+            if (Node == null)
+            {
+                Debug.LogError($"{nameof(BehaviourNodeView)} : Node is Null");
+                return;
+            }
+
             style.width = 200;
             StyleColor inputColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 

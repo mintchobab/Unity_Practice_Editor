@@ -20,6 +20,13 @@ namespace Mintchobab
             childNode = childNodes[0];
         }
 
+        public override void Refresh()
+        {
+            base.Refresh();
+
+            childNode.Refresh();
+        }
+
         public override NodeStates Evaluate()
         {
             return NodeState = NodeStates.Failure;
