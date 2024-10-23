@@ -16,6 +16,14 @@ namespace Mintchobab
     public abstract class BehaviourNode
     {
         [SerializeReference]
+        protected string nodeName;
+        public string NodeName
+        {
+            get => nodeName;
+            set => nodeName = value;
+        }
+
+        [SerializeReference]
         protected string guid;
         public string Guid
         {
@@ -63,6 +71,7 @@ namespace Mintchobab
         public BehaviourNode(string inGuid)
         {
             this.guid = inGuid;
+            nodeName = GetType().Name;
         }
 
 

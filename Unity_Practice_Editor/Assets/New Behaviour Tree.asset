@@ -13,55 +13,17 @@ MonoBehaviour:
   m_Name: New Behaviour Tree
   m_EditorClassIdentifier: 
   NodeList:
-  - rid: 9145171803588788224
-  - rid: 9145171803588788225
-  - rid: 9145171803588788226
-  - rid: 9145171908568285184
-  - rid: 9145171961756778496
-  RootNodeGuid: 1cbf611f-a6b4-4b1e-b636-08d85064f649
+  - rid: 9145172000268877824
+  RootNodeGuid: 4945b316-fe73-4c46-9100-a5158febb2c1
   references:
     version: 2
     RefIds:
-    - rid: 9145171803588788224
+    - rid: 9145172000268877824
       type: {class: RootNode, ns: Mintchobab, asm: Assembly-CSharp}
       data:
-        guid: 1cbf611f-a6b4-4b1e-b636-08d85064f649
-        parentNodeGuid: 
-        childNodeGuidList:
-        - a53ca3af-25c7-4cf7-b36a-1fb7be2e0b67
-        posX: 124
-        posY: 319
-    - rid: 9145171803588788225
-      type: {class: SequenceNode, ns: Mintchobab, asm: Assembly-CSharp}
-      data:
-        guid: a53ca3af-25c7-4cf7-b36a-1fb7be2e0b67
-        parentNodeGuid: 1cbf611f-a6b4-4b1e-b636-08d85064f649
-        childNodeGuidList:
-        - ecd31700-7cc0-4b0c-994a-214b381efa9e
-        - cde3b57e-6e4f-4fb7-b54f-38898f075f15
-        posX: 409
-        posY: 319
-    - rid: 9145171803588788226
-      type: {class: WaitNode, ns: Mintchobab, asm: Assembly-CSharp}
-      data:
-        guid: ecd31700-7cc0-4b0c-994a-214b381efa9e
-        parentNodeGuid: a53ca3af-25c7-4cf7-b36a-1fb7be2e0b67
-        childNodeGuidList: []
-        posX: 701
-        posY: 319
-    - rid: 9145171908568285184
-      type: {class: TestActionNode, ns: Mintchobab, asm: Assembly-CSharp}
-      data:
-        guid: cde3b57e-6e4f-4fb7-b54f-38898f075f15
-        parentNodeGuid: a53ca3af-25c7-4cf7-b36a-1fb7be2e0b67
-        childNodeGuidList: []
-        posX: 701
-        posY: 478
-    - rid: 9145171961756778496
-      type: {class: TestConditionNode, ns: Mintchobab, asm: Assembly-CSharp}
-      data:
-        guid: d3676c0d-8711-4b66-8e27-004267d83755
+        nodeName: RootNode
+        guid: 4945b316-fe73-4c46-9100-a5158febb2c1
         parentNodeGuid: 
         childNodeGuidList: []
-        posX: 717
-        posY: 835
+        posX: 0
+        posY: 0

@@ -6,6 +6,9 @@ namespace Mintchobab
 {
     public class TestActionNode : ActionNode
     {
+        [NodeField]
+        public string Name;
+
         public TestActionNode(string guid) : base(guid) { }
 
         private float elapsedTime = 0f;

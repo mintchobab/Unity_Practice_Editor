@@ -32,7 +32,9 @@ namespace Mintchobab
                 return;
             }
 
-            style.width = 200;
+            style.flexGrow = 1f;
+            style.minWidth = 200f;
+
             StyleColor inputColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 
             // 체크박스 삭제
@@ -173,7 +175,6 @@ namespace Mintchobab
                     }
                 }
             }
-
 
             void CreateFieldView<TValue, TField>(FieldInfo fieldInfo, Func<TField> createFunc) where TField : BaseField<TValue>
             {
