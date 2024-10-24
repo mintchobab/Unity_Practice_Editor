@@ -1,14 +1,18 @@
 using System;
 using System.Reflection;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
+#endif
+
 namespace Mintchobab
 {
-    public class BehaviourNodeView : UnityEditor.Experimental.GraphView.Node
+#if UNITY_EDITOR
+    public class BehaviourNodeView : Node
     {
         public Port inputPort;
         public Port outputPort;
@@ -231,4 +235,5 @@ namespace Mintchobab
             }
         }
     }
+#endif
 }

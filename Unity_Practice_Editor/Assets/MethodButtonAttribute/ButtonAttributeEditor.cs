@@ -1,8 +1,13 @@
 using UnityEngine;
-using UnityEditor;
 using System;
 using System.Reflection;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(MonoBehaviour), true)]
 public class ButtonAttributeEditor : Editor
 {
@@ -28,3 +33,4 @@ public class ButtonAttributeEditor : Editor
         }
     }
 }
+#endif

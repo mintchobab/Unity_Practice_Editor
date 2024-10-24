@@ -4,14 +4,8 @@ namespace Mintchobab
 {
     public class WaitNode : ActionNode
     {
-        private float waitTime;
-
-        [NodeProperty]
-        public float WaitTime
-        {
-            get => waitTime;
-            set => waitTime = value;
-        }
+        [NodeField]
+        public float WaitTime;
 
         private float elapsedTime;
 
@@ -25,17 +19,15 @@ namespace Mintchobab
             elapsedTime = 0f;
         }
 
-
         public override void Refresh()
         {
             base.Refresh();
             elapsedTime = 0f;
         }
 
-
         public override NodeStates Evaluate()
         {
-            if (elapsedTime < waitTime)
+            if (elapsedTime < WaitTime)
             {
                 elapsedTime += Time.deltaTime;
                 return NodeStates.Running;

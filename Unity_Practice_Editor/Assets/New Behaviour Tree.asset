@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeList:
   - rid: 9145172000268877824
+  - rid: 9145172000268877825
+  - rid: 9145172000268877826
+  - rid: 9145172000268877827
+  - rid: 9145172000268877828
   RootNodeGuid: 4945b316-fe73-4c46-9100-a5158febb2c1
   references:
     version: 2
@@ -25,5 +29,42 @@ MonoBehaviour:
         guid: 4945b316-fe73-4c46-9100-a5158febb2c1
         parentNodeGuid: 
         childNodeGuidList: []
-        posX: 0
-        posY: 0
+        posX: 6
+        posY: 201
+    - rid: 9145172000268877825
+      type: {class: SequenceNode, ns: Mintchobab, asm: Assembly-CSharp}
+      data:
+        nodeName: SequenceNode
+        guid: f8cde159-ca7a-45c1-bf0f-e584df549381
+        parentNodeGuid: 
+        childNodeGuidList: []
+        posX: 323
+        posY: 201
+    - rid: 9145172000268877826
+      type: {class: TestActionNode, ns: Mintchobab, asm: Assembly-CSharp}
+      data:
+        nodeName: TestActionNode
+        guid: 485c09ea-0869-4a85-9b24-991b4be4bfe5
+        parentNodeGuid: 
+        childNodeGuidList: []
+        posX: 649
+        posY: 179
+        Name: dasdasdklasdjlkasjdksa
+    - rid: 9145172000268877827
+      type: {class: WaitNode, ns: Mintchobab, asm: Assembly-CSharp}
+      data:
+        nodeName: WaitNode
+        guid: 2b822aa2-2b61-4614-a05e-ee9d271dc57e
+        parentNodeGuid: 
+        childNodeGuidList: []
+        posX: 649
+        posY: 278
+    - rid: 9145172000268877828
+      type: {class: TestConditionNode, ns: Mintchobab, asm: Assembly-CSharp}
+      data:
+        nodeName: TestConditionNode
+        guid: 2db66621-f941-452c-bffa-8b556b2a2a04
+        parentNodeGuid: 
+        childNodeGuidList: []
+        posX: 649
+        posY: 400

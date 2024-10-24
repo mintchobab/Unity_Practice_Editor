@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Mintchobab
 {
@@ -35,8 +38,9 @@ namespace Mintchobab
             BehaviourNode newNode = Activator.CreateInstance(nodeType, guid) as BehaviourNode;
 
             NodeList.Add(newNode);
+#if UNITY_EDITOR
             EditorUtility.SetDirty(this);
-
+#endif
             return newNode;
         }
 
@@ -51,7 +55,9 @@ namespace Mintchobab
 
             NodeList.Remove(node);
 
+#if UNITY_EDITOR
             EditorUtility.SetDirty(this);
+#endif
         }
 
 

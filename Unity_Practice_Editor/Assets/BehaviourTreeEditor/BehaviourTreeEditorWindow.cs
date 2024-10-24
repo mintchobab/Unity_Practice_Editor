@@ -1,11 +1,15 @@
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
+#endif
+
 namespace Mintchobab
 {
+#if UNITY_EDITOR
     public class BehaviourTreeEditorWindow : GraphViewEditorWindow
     {
         private BehaviourTreeView graphView;
@@ -126,4 +130,5 @@ namespace Mintchobab
             leftPanel.Clear();
         }
     }
+#endif
 }

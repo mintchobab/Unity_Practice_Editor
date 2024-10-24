@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+#if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+#endif
 
 namespace Mintchobab
 {
+#if UNITY_EDITOR
     public class BehaviourTreeView : GraphView
     {
         private BehaviourTree myBehaviourTree;
@@ -216,4 +220,5 @@ namespace Mintchobab
                           endPort.portType == startPort.portType).ToList();
         }
     }
+#endif
 }
